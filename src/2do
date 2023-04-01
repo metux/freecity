@@ -1,0 +1,44 @@
+* rubble
+    * check on build --> auto bulldoze ?
+* rails
+    * sprites
+* create road w/ check and payment
+* clean tiles
+* lakes
+* trees
+    * sprites & render
+* tests
+    * place random rubble
+    * place random trees
+* buildings
+    * individual names
+    * demolish
+* plant trees
+* budgets
+* industries + demands + taxes
+* bonds
+* ordinances
+* gtk frontend
+* water/pipes
+* highways
+* tunnels
+* coast
+* powerlines consume power
+* pollution
+* weather
+* building only when 3 tiles away from road or rail
+    -> best density: 6x6 surrounded by road/rail
+* roads:
+    44 cars per minute --> no/low traffic
+    88 --> light traffic
+* climate trends
+* clouds, rain
+* lakes
+* move errect* w/ payments to Game ?
+
+* render-cairo:
+    * optimize rendering
+    * current prescale (0.5) is good for lower scaling levels, but looks ugly above 1.0
+    * maybe switch prescale based on scale (re-render basemap, etc)
+    * maybe selective re-rendering based on viewport
+    * maybe add extra clipping to final target surface ?
