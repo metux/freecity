@@ -1,0 +1,20 @@
+startup:
+    date: 1800-01-01 00:00:00
+    funds: 400000
+    size: 128;128
+costs:
+    road: 10
+    rail: 10
+    bulldoze: 1
+    powerline: 10
+    zones:
+        residential-light: 100
+        residential-dense: 200
+        industrial-light:  100
+        industrial-dense:  200
+        commercial-light:  100
+        commercial-dense:  200
+        seaport-light:     400
+        seaport-dense:     800
+        airport-light:     400
+        airport-dense:     800

@@ -1,0 +1,79 @@
+- name: powerplant/coal
+  category: powerplant
+  size: 4;4
+  consumption:
+    power: -4000
+  costs:
+    build: 1000
+    maint: 0
+  lifetime: 50
+  only_land: yes
+  require: flat_land
+  routes:
+    power: yes
+    water: yes
+- name: powerplant/nuclear
+  category: powerplant
+  size: 5;3
+  consumption:
+    power: -4000
+  costs:
+    build: 1000
+    maint: 0
+  lifetime: 50
+  only_land: yes
+  require: flat_land
+  routes:
+    power: yes
+    water: yes
+- name: powerplant/water
+  category: powerplant
+  size: 1;1
+  consumption:
+    power: -1000
+    water: 0
+  costs:
+    build: 400
+    maint: 0
+  lifetime: 50
+  placable: yes
+  require: waterfall
+  routes:
+    power: yes
+    water: yes
+    cars: no
+- name: housing/small
+  category: residential
+  size: 1;1
+  consumption:
+    power: 1
+    water: 1
+  routes:
+    power: yes
+    water: yes
+- name: seaport
+  category: port
+  size: 4;4
+  require: flat_land_and_water
+  routes:
+    power: yes
+    water: yes
+- name: rail
+  category: rail
+  size: 1;1
+  require: any_land
+  can_bridge: rail
+- name: road
+  require: any_land
+- name: residential/skyscraper
+  category: residential
+  size: 4;4
+  require: flat_land
+  routes:
+    power: yes
+    water: yes
+  consumption:
+    power: 10
+  costs:
+    build: -1000
+    maint: -100
