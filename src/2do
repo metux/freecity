@@ -18,7 +18,6 @@
 * industries + demands + taxes
 * bonds
 * ordinances
-* gtk frontend
 * water/pipes
 * highways
 * tunnels
@@ -42,3 +41,9 @@
     * maybe switch prescale based on scale (re-render basemap, etc)
     * maybe selective re-rendering based on viewport
     * maybe add extra clipping to final target surface ?
+
+* UI GTK
+    * menu bar
+    * retrieve available building list
+    * Wall clock
+    * prescale vs pointer-2-tile

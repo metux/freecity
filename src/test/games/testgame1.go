@@ -9,16 +9,20 @@ import (
 type P = base.Point
 type R = base.Rect
 
+func placeRubble(g * game.Game) {
+    // generate some random rubble
+    num_rubble := rand.Intn(10) + 10
+    for n := 0; n < num_rubble; n++ {
+        g.Terrain.PlaceRubble(base.RandPoint(g.Terrain.Size))
+    }
+    g.Terrain.PlaceRubble(P{20,20})
+}
+
 func TestGame1() * game.Game {
     g1 := game.DefaultConfig.CreateGame()
     terrain := &g1.Terrain
 
-    // generate some random rubble
-    num_rubble := rand.Intn(10) + 10
-    for n := 0; n < num_rubble; n++ {
-        terrain.PlaceRubble(base.RandPoint(terrain.Size))
-    }
-    terrain.PlaceRubble(P{20,20})
+//    placeRubble(g1)
 
     terrain.ErrectPowerline(P{0,0})
     terrain.ErrectBuilding("powerplant/coal",        P{10, 12})

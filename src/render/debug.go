@@ -3,3 +3,4 @@
 package render
 
 const DebugMode = true
+const DebugRaster = true

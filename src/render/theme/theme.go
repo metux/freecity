@@ -17,6 +17,7 @@ const (
     ImgBorderBottomLeft  = "tiles/border/bottom-left"
     ImgBorderBottomRight = "tiles/border/bottom-right"
     ImgGrid              = "tiles/grid"
+    ImgHarness           = "tiles/harness"
     ImgZonesPrefix       = "tiles/zones/"
     ImgPowerlinePrefix   = "tiles/powerline/"
     ImgRoadPrefix        = "tiles/road/"

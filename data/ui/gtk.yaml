@@ -1,2 +1,53 @@
 scale: 0.2
 theme: parallel
+movestep: 100
+prescale: 1
+mainmenu:
+    submenu:
+      - label: _File
+        submenu:
+          - label: _Open
+            cmd:   file open
+          - label:  _Close
+            cmd:   file.close
+          - label:  _Save
+            cmd:   file save
+          - type:  separator
+          - label:  _Quit
+            cmd:   quit
+      - label: _Edit
+        submenu:
+          - label: _Undo
+            cmd:   edit undo
+          - label: _Redo
+            cmd:   edit redo
+      - label: _Speed
+        id: game.speed
+        submenu:
+          - label: Pause
+            cmd:   game speed 0
+            id:    speed.0
+            type:  check
+          - label: Slow
+            cmd:   game speed 1
+            id:    speed.1
+            type:  check
+          - label: Medium
+            cmd:   game speed 2
+            id:    speed.2
+            type:  check
+          - label: Fast
+            cmd:   game speed 3
+            id:    speed.3
+            type:  check
+      - label: _Build
+        submenu:
+windowtitle: FreeCity
+keymap:
+    KEY_Left:  mapview move left
+    KEY_Right: mapview move right
+    KEY_Up:    mapview move up
+    KEY_Down:  mapview move down
+    KEY_plus:  mapview zoom up
+    KEY_minus: mapview zoom down
+    CTRL_q:    quit

@@ -3,78 +3,89 @@ package gtk
 import (
     "github.com/gotk3/gotk3/gtk"
     "github.com/gotk3/gotk3/gdk"
+    "github.com/metux/freecity/core/base"
+    "github.com/metux/freecity/core/cmd"
     "github.com/metux/freecity/core/game"
+    "github.com/metux/freecity/core/items"
     "log"
 )
 
 type MainWindow struct {
-    Win     * gtk.Window
-    MapView   MapViewWindow
-    Game    * game.Game
+    App       * gtk.Application
+    window    * gtk.ApplicationWindow
+    MapView     MapViewWindow
+    Game      * game.Game
+    Console     items.NotifyHandler
+    Box       * gtk.Box
+    Config    * Config
+    StatusBar * gtk.Statusbar
 }
 
-func (mw * MainWindow) Init(g * game.Game, datadir string) {
-    err := error(nil)
+func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
+    mw.Console.NotifyEmit(a, n)
+    switch n2 := n.(type) {
+        case game.NotifyGameSpeed: {
+            mw.Config.MainMenu.SetGameSpeed(n2.Speed)
+            return true
+        }
+    }
+    mw.StatusBar.Push(2, n.String())
+    return false
+}
+
+func (mw * MainWindow) HandleCmd(cmd [] string, id string) bool {
+    switch cmd[0] {
+        case "": return false
+        case "mapview": return mw.MapView.HandleCmd(cmd[1:], id)
+        case "quit": mw.App.Quit(); break
+        case "game": return mw.Game.HandleCmd(cmd[1:], id)
+        default:
+            log.Println("MainWindow: unhandled command: ", cmd, id)
+            return false
+    }
+    return true
+}
+
+func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string) {
+    mw.Config = LoadUIYaml(datadir)
+    mw.App = app
 
     mw.Game = g
+    mw.Console = g.SetNotify(mw)
 
-    // Initialize GTK without parsing any command line arguments.
-    gtk.Init(nil)
+    mw.window,_= gtk.ApplicationWindowNew(app)
+    mw.window.SetTitle(mw.Config.WindowTitle)
+    mw.window.Connect("destroy", func() { mw.HandleCmd([]string{"quit"}, "") })
+    mw.window.SetDefaultSize(mw.Config.WindowWidth, mw.Config.WindowHeight)
 
-    // Create a new toplevel window, set its title, and connect it to the
-    // "destroy" signal to exit the GTK main loop when it is destroyed.
-    mw.Win, err = gtk.WindowNew(gtk.WINDOW_TOPLEVEL)
-    if err != nil {
-        log.Fatal("Unable to create window:", err)
-    }
-    mw.Win.SetTitle("FreeCity")
-    mw.Win.Connect("destroy", func() {
-        gtk.MainQuit()
-    })
+    mw.Box,_ = gtk.BoxNew(gtk.ORIENTATION_VERTICAL,0)
+    mw.window.Add(mw.Box)
 
-    // Set the default window size.
-    mw.Win.SetDefaultSize(800, 600)
+    mw.StatusBar,_ = gtk.StatusbarNew()
+
+    // init menu
+    mw.Config.MainMenu.SetHandler(mw)
+    mw.Box.PackStart(GtkLoadMenuBar(&mw.Config.MainMenu), false, false, 0)
 
     mw.MapView = MapViewWindow{}
-    mw.MapView.Init(mw.Game, mw.Win, LoadUIYaml(datadir))
+    mw.MapView.Init(mw.Game, mw.Box, mw.Config, func(s string) {
+        mw.StatusBar.Push(3, s)})
+
+    // statusbar
+    mw.Box.PackEnd(mw.StatusBar, false, false, 0)
+    mw.StatusBar.Push(1, "game startup")
 
     // FIXME: handle mouse click to center
 
-    // FIXME: gtk keymaps
-    mw.Win.Connect("key-press-event", func(win *gtk.Window, ev *gdk.Event) {
-        keyEvent := &gdk.EventKey{ev}
-        switch (keyEvent.KeyVal()) {
-            case gdk.KEY_Left:
-                mw.MapView.MoveLeft()
-            break;
-            case gdk.KEY_Right:
-                mw.MapView.MoveRight()
-            break;
-            case gdk.KEY_Up:
-                mw.MapView.MoveUp()
-            break
-            case gdk.KEY_Down:
-                mw.MapView.MoveDown()
-            break;
-            case gdk.KEY_plus:
-                mw.MapView.ZoomUp()
-            break;
-            case gdk.KEY_minus:
-                mw.MapView.ZoomDown()
-            break;
-            case gdk.KEY_q:
-                if (keyEvent.State() & gdk.CONTROL_MASK) == gdk.CONTROL_MASK {
-                    gtk.MainQuit()
-                }
-            break;
-            default:
-                log.Println("key event", keyEvent.KeyVal())
-                return
-            break;
+    mw.window.Connect("key-press-event", func(win *gtk.ApplicationWindow, ev *gdk.Event) {
+        key := translateGdkKey(&gdk.EventKey{ev})
+        id,okay := mw.Config.KeyMap[key]
+        if okay {
+            mw.HandleCmd(cmd.SplitCmdline(id), "key")
+        } else {
+            log.Println("key not bound", key)
         }
-        mw.Win.QueueDraw()
     })
 
-    // Recursively show all widgets contained in this window.
-    mw.Win.ShowAll()
+    mw.window.ShowAll()
 }
