@@ -12,6 +12,7 @@
   routes:
     power: yes
     water: yes
+
 - name: powerplant/nuclear
   category: powerplant
   size: 5;3
@@ -26,6 +27,7 @@
   routes:
     power: yes
     water: yes
+
 - name: powerplant/water
   category: powerplant
   size: 1;1
@@ -42,6 +44,7 @@
     power: yes
     water: yes
     cars: no
+
 - name: housing/small
   category: residential
   size: 1;1
@@ -51,6 +54,7 @@
   routes:
     power: yes
     water: yes
+
 - name: seaport
   category: port
   size: 4;4
@@ -58,13 +62,16 @@
   routes:
     power: yes
     water: yes
+
 - name: rail
   category: rail
   size: 1;1
   require: any_land
   can_bridge: rail
+
 - name: road
   require: any_land
+
 - name: residential/skyscraper
   category: residential
   size: 4;4

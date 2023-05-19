@@ -46,6 +46,13 @@ func (mw * MainWindow) HandleCmd(cmd [] string, id string) bool {
     return true
 }
 
+func (mw * MainWindow) InitBuildMenu() {
+    for idx,bt := range mw.Game.Terrain.GeneralRules.Buildings.BuildingTypes {
+//    for idx,bt := range mw.Game.Terrain.GeneralRules.Buildings.Placable {
+        log.Println("building --> ", idx, bt)
+    }
+}
+
 func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string) {
     mw.Config = LoadUIYaml(datadir)
     mw.App = app
@@ -67,6 +74,9 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.Config.MainMenu.SetHandler(mw)
     mw.Box.PackStart(GtkLoadMenuBar(&mw.Config.MainMenu), false, false, 0)
 
+    // create the buildings menu
+    mw.InitBuildMenu()
+
     mw.MapView = MapViewWindow{}
     mw.MapView.Init(mw.Game, mw.Box, mw.Config, func(s string) {
         mw.StatusBar.Push(3, s)})
@@ -76,7 +86,6 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.StatusBar.Push(1, "game startup")
 
     // FIXME: handle mouse click to center
-
     mw.window.Connect("key-press-event", func(win *gtk.ApplicationWindow, ev *gdk.Event) {
         key := translateGdkKey(&gdk.EventKey{ev})
         id,okay := mw.Config.KeyMap[key]
