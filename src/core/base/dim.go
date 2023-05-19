@@ -10,10 +10,6 @@ type Dim struct {
     Height int `yaml:"height,omitempty" default: "1"`
 }
 
-func (d Dim) String() string {
-    return fmt.Sprintf("%dx%d", d.Width, d.Height)
-}
-
 func (d Dim) HasPoint(p Point) bool {
     return (p.X >= 0) && (p.X < d.Width) && (p.Y >= 0) && (p.Y < d.Height)
 }
