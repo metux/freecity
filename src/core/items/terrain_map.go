@@ -130,3 +130,13 @@ func (tm * TerrainMap) TouchTerrain() {
 func (tm * TerrainMap) TouchObjects() {
     tm.RevObjects++
 }
+
+func (tm * TerrainMap) ModifyTile(p point, f func(tile * Tile) bool) bool {
+    if tile := tm.tileAt(p); tile != nil {
+        if f(tile) {
+            tm.TouchTerrain()
+            return true
+        }
+    }
+    return false
+}
