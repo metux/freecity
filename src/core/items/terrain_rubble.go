@@ -12,10 +12,10 @@ func (tm * TerrainMap) CleanRubble(act Action, p point) bool {
         if tile.Rubble {
             if tm.trySpendFunds(act, tm.GeneralRules.Costs.Bulldoze, "clean rubbble") {
                 tile.Rubble = false
+                tm.TouchTerrain()
                 return true
             }
         }
     }
-    tm.TouchTerrain()
     return false
 }
