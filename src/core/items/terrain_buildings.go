@@ -7,9 +7,7 @@ import (
 )
 
 func (tm * TerrainMap) mayPlaceBuildingType(bt * rules.BuildingType, pos point) bool {
-    rect := pos.MakeRect(bt.Size)
-
-    tiles, err := tm.TileRange(rect, false)
+    tiles, err := tm.TileRange(pos.MakeRect(bt.Size), false)
     if err != nil {
         log.Println("failed getting tile range")
         return false
