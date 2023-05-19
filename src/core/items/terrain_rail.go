@@ -11,18 +11,15 @@ func (tm * TerrainMap) isRailAt(p point) bool {
     return false
 }
 
+// FIXME: need to check for conflicts against powerlines and rails
 func (tm * TerrainMap) updateRailAt(p point) {
-    tile := tm.tileAt(p)
-    if (tile == nil) || (tile.Rail.None()) {
-        return
-    }
-
-    // FIXME: need to check for conflicts against powerlines and rails
-    tile.Rail = base.LineDirectionFromVec(
-        tm.isRailAt(p.North()),
-        tm.isRailAt(p.East()),
-        tm.isRailAt(p.South()),
-        tm.isRailAt(p.West()))
+    tm.ModifyTile(p, func (tile * Tile) bool {
+        if tile.Rail.Present() {
+            tile.Rail.PickFromSurrounding(p, tm.isRailAt)
+            return true
+        }
+        return false
+    })
 }
 
 func (tm * TerrainMap) ErrectRail(p point) (bool) {

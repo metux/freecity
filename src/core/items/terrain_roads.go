@@ -6,10 +6,6 @@ import (
 
 func (tm * TerrainMap) isRoadAt(p point) bool {
     return tm.CheckTile(p, Tile.HasRoad)
-//    if t := tm.tileAt(p); t != nil {
-//        return t.HasRoad()
-//    }
-//    return false
 }
 
 // update the directions of neighboring roads
