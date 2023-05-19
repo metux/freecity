@@ -51,6 +51,10 @@ func (p Point) HasPoint(p2 Point) bool {
     return (p2.X >= 0) && (p2.X < p.X) && (p2.Y >= 0) && (p2.Y < p.Y)
 }
 
+func (p Point) Surrounding() Rect {
+    return Rect{p.X - 1, p.Y - 1, 3, 3}
+}
+
 func (p *Point) UnmarshalYAML(value *yaml.Node) error {
     var tmpStr string
 
