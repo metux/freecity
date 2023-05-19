@@ -6,6 +6,6 @@ import (
 
 type date        = base.Date
 type money       = base.Money
-type dim         = base.Dim
+type dim         = base.Point
 type zonetag     = base.ZoneTag
 type consumption = base.Consumption

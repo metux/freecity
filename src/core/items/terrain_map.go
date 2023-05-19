@@ -8,7 +8,7 @@ import (
 )
 
 type TerrainMap struct {
-    Size                 base.Dim
+    Size                 base.Point
     Tiles           []   Tile
     Buildings       [] * Building
     PowerGrids      []   PowerGrid
@@ -25,7 +25,7 @@ func (tm * TerrainMap) CreateMap() {
     tm.Size  = tm.GeneralRules.Startup.Size
     tm.Funds = tm.GeneralRules.Startup.Funds
     tm.Date  = tm.GeneralRules.Startup.Date
-    tm.Tiles = make([]Tile, tm.Size.Width * tm.Size.Height)
+    tm.Tiles = make([]Tile, tm.Size.X * tm.Size.Y)
 }
 
 func (tm * TerrainMap) tilePoint(p Point) (TileRef, error) {
@@ -34,7 +34,7 @@ func (tm * TerrainMap) tilePoint(p Point) (TileRef, error) {
     }
     return TileRef{
         TerrainMap: tm,
-        Tile:       &tm.Tiles[p.Y * tm.Size.Width + p.X],
+        Tile:       &tm.Tiles[p.Y * tm.Size.X + p.X],
         Position:   p,
     }, nil
 }
@@ -43,11 +43,11 @@ func (tm * TerrainMap) tileAt(p Point) * Tile {
     if (!tm.Size.HasPoint(p)) {
         return nil
     }
-    return &tm.Tiles[p.Y * tm.Size.Width + p.X]
+    return &tm.Tiles[p.Y * tm.Size.X + p.X]
 }
 
 func (tm * TerrainMap) AllTiles() (TileSet) {
-    tiles,_ := tm.TileRange(tm.Size.ToRect(), true)
+    tiles,_ := tm.TileRange(tm.Size.SpanRect(), true)
     return tiles
 }
 

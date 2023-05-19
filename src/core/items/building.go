@@ -30,7 +30,7 @@ func (b * Building) IsPowerConsumer() bool {
 }
 
 func (b * Building) OccupiedRect() Rect {
-    return base.RectByPointDim(b.Position, b.BuildingType.Size)
+    return b.Position.MakeRect(b.BuildingType.Size)
 }
 
 func (b * Building) PowerConnected() bool {
@@ -57,9 +57,13 @@ func (b * Building) RoutesRoad() bool {
     return b.BuildingType.Routes.Road
 }
 
+func (b * Building) TileRange() TileSet {
+    ts,_ := b.Terrain.TileRange(b.OccupiedRect(), true)
+    return ts
+}
+
 func (b * Building) Destroy() {
-    ts,_ := b.Terrain.TileRange(base.RectByPointDim(b.Position, b.BuildingType.Size), true)
-    for _,t := range ts {
+    for _,t := range b.TileRange() {
         t.Tile.Building = nil
         t.Tile.Rubble = true
     }
@@ -67,8 +71,7 @@ func (b * Building) Destroy() {
 }
 
 func (b * Building) ConnectTiles() {
-    ts,_ := b.Terrain.TileRange(base.RectByPointDim(b.Position, b.BuildingType.Size), true)
-    for _,t := range ts {
+    for _,t := range b.TileRange() {
         t.Tile.Building = b
     }
 }

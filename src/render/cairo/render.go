@@ -63,7 +63,7 @@ func (r * Renderer) init() {
     r.tileSize = r.Viewport.PrescalePoint(r.Theme.TileSize.ToPoint())
 
     hts := r.tileSize.Mul(0.5)
-    mapSize := FPoint{float64(r.Terrain.Size.Width), float64(r.Terrain.Size.Height)}
+    mapSize := FPoint{float64(r.Terrain.Size.X), float64(r.Terrain.Size.Y)}
 
     switch r.Theme.Projection {
         case theme.ProjFlat:

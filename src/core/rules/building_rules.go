@@ -17,11 +17,11 @@ func (this * BuildingRules) Rehash() {
         newmap[elem.Name] = elem
 
         // fix missing values
-        if (elem.Size.Width == 0) {
-            elem.Size.Width = 1
+        if (elem.Size.X == 0) {
+            elem.Size.X = 1
         }
-        if (elem.Size.Height == 0) {
-            elem.Size.Height = 1
+        if (elem.Size.Y == 0) {
+            elem.Size.Y = 1
         }
     }
     this.ByName = newmap

@@ -32,12 +32,3 @@ func (r Rect) BottomRight() Point {
 func (r Rect) Valid() bool {
     return r.Width > 0 && r.Height > 0 && r.X > -1 && r.Y > -1
 }
-
-func RectByPointDim(p Point, d Dim) Rect {
-    return Rect{
-        X: p.X,
-        Y: p.Y,
-        Width: d.Width,
-        Height: d.Height,
-    }
-}

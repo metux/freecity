@@ -35,6 +35,18 @@ func (p Point) MarshalYAML() (interface{}, error) {
     return fmt.Sprintf("%d;%d", p.X, p.Y), nil
 }
 
+func (p Point) MakeRect(size Point) Rect {
+    return Rect{ X: p.X, Y: p.Y, Width: size.X, Height: size.Y }
+}
+
+func (p Point) SpanRect() Rect {
+    return Rect{ X: 0, Y: 0, Width: p.X, Height: p.Y }
+}
+
+func (p Point) HasPoint(p2 Point) bool {
+    return (p2.X >= 0) && (p2.X < p.X) && (p2.Y >= 0) && (p2.Y < p.Y)
+}
+
 func (p *Point) UnmarshalYAML(value *yaml.Node) error {
     var tmpStr string
 
@@ -48,6 +60,6 @@ func (p *Point) UnmarshalYAML(value *yaml.Node) error {
     return nil
 }
 
-func RandPoint(d Dim) Point {
-    return Point{rand.Intn(d.Width), rand.Intn(d.Height)}
+func RandPoint(d Point) Point {
+    return Point{rand.Intn(d.X), rand.Intn(d.Y)}
 }

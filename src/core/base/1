@@ -1,0 +1,3 @@
+func (d Dim) HasPoint(p Point) bool {
+    return (p.X >= 0) && (p.X < d.Width) && (p.Y >= 0) && (p.Y < d.Height)
+}

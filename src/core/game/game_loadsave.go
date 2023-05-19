@@ -9,7 +9,7 @@ import (
 type SaveGame struct {
     Ruleset      string             `yaml:"ruleset"`
     Buildings [] items.Building     `yaml:"buildings"`
-    MapSize      base.Dim           `yaml:"mapsize"`
+    MapSize      base.Point         `yaml:"mapsize"`
     Funds        base.Money         `yaml:"funds"`
     Date         base.Date          `yaml:"date"`
     Tiles     [] items.Tile         `yaml:"tiles"`
