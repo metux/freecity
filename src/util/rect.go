@@ -32,3 +32,13 @@ func (r Rect) BottomRight() Point {
 func (r Rect) Valid() bool {
     return r.Width > 0 && r.Height > 0 && r.X > -1 && r.Y > -1
 }
+
+func (r Rect) DoPoints(f func(p Point)) {
+    x2 := r.X + r.Width
+    y2 := r.Y + r.Height
+    for x := r.X; x < x2; x++ {
+        for y := r.Y; y < y2; y++ {
+            f(Point{x,y})
+        }
+    }
+}
