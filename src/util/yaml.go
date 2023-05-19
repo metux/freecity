@@ -1,4 +1,4 @@
-package base
+package util
 
 import (
     "gopkg.in/yaml.v3"

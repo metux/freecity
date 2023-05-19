@@ -2,6 +2,7 @@ package game
 
 import (
     "log"
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
 )
@@ -10,7 +11,7 @@ type SaveGame struct {
     Ruleset      string             `yaml:"ruleset"`
     Buildings [] items.Building     `yaml:"buildings"`
     MapSize      point              `yaml:"mapsize"`
-    Funds        base.Money         `yaml:"funds"`
+    Funds        money              `yaml:"funds"`
     Date         date               `yaml:"date"`
     Tiles     [] items.Tile         `yaml:"tiles"`
 }
@@ -33,13 +34,13 @@ func (this * Game) SaveGame(filename string) error {
         }
     }
 
-    return base.YamlStore(filename, savegame)
+    return util.YamlStore(filename, savegame)
 }
 
 func (g *Game) LoadGame(filename string) error {
     savegame := SaveGame {}
 
-    if err := base.YamlLoad(filename, &savegame); err != nil {
+    if err := util.YamlLoad(filename, &savegame); err != nil {
         log.Println("failed loading file", filename)
         return err
     }

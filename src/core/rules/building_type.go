@@ -7,7 +7,7 @@ import (
 type BuildingType struct {
     // if negative, the building is a power supplier
     Name                string      `yaml:"name"`
-    Size                dim    `yaml:"size"`
+    Size                point       `yaml:"size"`
     Costs struct {
         Build       money   `yaml:"build" default: "0"`
         Maint       money   `yaml:"maint"`

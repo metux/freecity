@@ -2,6 +2,7 @@ package rules
 
 import (
     "log"
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/base"
 )
 
@@ -9,7 +10,7 @@ type GeneralRules struct {
     Startup struct {
         Date    date
         Funds   money
-        Size    dim
+        Size    point
     }
     Costs struct {
         Road                 money
@@ -35,7 +36,7 @@ type GeneralRules struct {
 func (g * GeneralRules) LoadYaml(ruledir string) error {
     fn := ruledir + "/general.yaml"
 
-    if err := base.YamlLoad(fn, g); err != nil {
+    if err := util.YamlLoad(fn, g); err != nil {
         log.Println("failed loading general ruleset")
         return err
     }

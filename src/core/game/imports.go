@@ -8,3 +8,4 @@ import (
 type action = base.Action
 type date = util.Date
 type point = base.Point
+type money = base.Money

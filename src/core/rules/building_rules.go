@@ -1,7 +1,7 @@
 package rules
 
 import (
-    "github.com/metux/freecity/core/base"
+    "github.com/metux/freecity/util"
     "log"
 )
 
@@ -37,7 +37,7 @@ func (this * BuildingRules) LoadYaml(ruledir string) error {
 
     var result [] BuildingType
 
-    if err := base.YamlLoad(fn, &result); err != nil {
+    if err := util.YamlLoad(fn, &result); err != nil {
         log.Println("failed loading building ruleset")
         return err
     }

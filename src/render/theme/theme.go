@@ -4,6 +4,7 @@ import (
     "log"
     "image"
     "sync"
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/base"
 )
 
@@ -124,7 +125,7 @@ func (t * ThemeSpec) ImagePowerline(d base.LineDirection) * image.RGBA {
 func (ts * ThemeSpec) LoadYaml(themedir string) error {
     fn := themedir + "/theme.yaml"
 
-    if err := base.YamlLoad(fn, ts); err != nil {
+    if err := util.YamlLoad(fn, ts); err != nil {
         log.Println("failed loading theme from", themedir)
         return err
     }

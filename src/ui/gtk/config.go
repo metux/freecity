@@ -1,8 +1,8 @@
 package gtk
 
 import (
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/ui/common"
-    "github.com/metux/freecity/core/base"
 )
 
 type Config struct {
@@ -35,7 +35,7 @@ func LoadUIYaml(prefix string) * Config {
 
     fn := prefix + "/ui/gtk.yaml"
 
-    if err := base.YamlLoad(fn, &c); err != nil {
+    if err := util.YamlLoad(fn, &c); err != nil {
         return &c
     }
 
