@@ -41,7 +41,7 @@ func (t * Tile) IsWaterfall() bool {
     return t.Terrain.IsWaterfall()
 }
 
-func (t * Tile) HasPowerLine() bool {
+func (t Tile) HasPowerLine() bool {
     return (t.Power != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesPower())
 }
 
