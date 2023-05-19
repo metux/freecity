@@ -20,11 +20,7 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
     }
 
     // FIXME: need to check for conflicts against roads
-    tile.Power = base.LineDirectionFromVec(
-        tm.isPowerAt(p.North()),
-        tm.isPowerAt(p.East()),
-        tm.isPowerAt(p.South()),
-        tm.isPowerAt(p.West()))
+    tile.Power.PickFromSurrounding(p, tm.isPowerAt)
 }
 
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {

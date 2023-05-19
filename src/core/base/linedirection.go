@@ -4,6 +4,7 @@ import (
     "log"
     "errors"
     "gopkg.in/yaml.v3"
+    "github.com/metux/freecity/util"
 )
 
 type LineDirection uint8
@@ -150,4 +151,12 @@ func LineDirPick(other_a, other_b LineDirection) LineDirection {
     }
 
     return LineDirNone
+}
+
+func (d * LineDirection) PickFromSurrounding(p util.Point, f func(p util.Point) bool) {
+    *d = LineDirectionFromVec(
+            f(p.North()),
+            f(p.East()),
+            f(p.South()),
+            f(p.West()))
 }

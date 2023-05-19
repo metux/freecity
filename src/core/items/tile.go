@@ -53,7 +53,7 @@ func (t * Tile) ClearPowerGrid() {
     t.PowerGrid = nil
 }
 
-func (t * Tile) HasRoad() bool {
+func (t Tile) HasRoad() bool {
     return (t.Road != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesRoad())
 }
 

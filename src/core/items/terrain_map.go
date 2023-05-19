@@ -140,3 +140,10 @@ func (tm * TerrainMap) ModifyTile(p point, f func(tile * Tile) bool) bool {
     }
     return false
 }
+
+func (tm * TerrainMap) CheckTile(p point, f func(tile Tile) bool) bool {
+    if tile := tm.tileAt(p); tile != nil {
+        return f(*tile)
+    }
+    return false
+}

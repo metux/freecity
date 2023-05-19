@@ -5,22 +5,23 @@ import (
 )
 
 func (tm * TerrainMap) isRoadAt(p point) bool {
-    if t := tm.tileAt(p); t != nil {
-        return t.HasRoad()
-    }
-    return false
+    return tm.CheckTile(p, Tile.HasRoad)
+//    if t := tm.tileAt(p); t != nil {
+//        return t.HasRoad()
+//    }
+//    return false
 }
 
 // update the directions of neighboring roads
 func (tm * TerrainMap) updateRoadAt(p point) {
-    if tile := tm.tileAt(p); tile != nil && tile.Road.Present() {
-        // FIXME: need to check for conflicts against powerlines and rails
-        tile.Road = base.LineDirectionFromVec(
-            tm.isRoadAt(p.North()),
-            tm.isRoadAt(p.East()),
-            tm.isRoadAt(p.South()),
-            tm.isRoadAt(p.West()))
-    }
+    tm.ModifyTile(p, func(tile * Tile) bool {
+        if tile.Road.Present() {
+            // FIXME: need to check for conflicts against powerlines and rails
+            tile.Road.PickFromSurrounding(p, tm.isRoadAt)
+            return true
+        }
+        return false
+    })
 }
 
 func (tm * TerrainMap) ErrectRoad(p point) bool {
