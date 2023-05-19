@@ -4,7 +4,7 @@ import (
     "github.com/gotk3/gotk3/gtk"
     "github.com/gotk3/gotk3/gdk"
     "github.com/metux/freecity/core/base"
-    "github.com/metux/freecity/core/cmd"
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/core/items"
     "log"
@@ -81,7 +81,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
         key := translateGdkKey(&gdk.EventKey{ev})
         id,okay := mw.Config.KeyMap[key]
         if okay {
-            mw.HandleCmd(cmd.SplitCmdline(id), "key")
+            mw.HandleCmd(util.SplitCmdline(id), "key")
         } else {
             log.Println("key not bound", key)
         }
