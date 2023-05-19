@@ -57,6 +57,6 @@ func (t Tile) HasRoad() bool {
     return (t.Road != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesRoad())
 }
 
-func (t * Tile) HasRail() bool {
+func (t Tile) HasRail() bool {
     return (t.Rail != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesRail())
 }
