@@ -2,11 +2,8 @@ package simu
 
 import (
     "log"
-    "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
 )
-
-const act = base.ActionSimu
 
 type Simulator struct {
     terrain * items.TerrainMap

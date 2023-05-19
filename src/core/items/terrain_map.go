@@ -16,7 +16,7 @@ type TerrainMap struct {
     Funds                Money
     Ruleset              string
     Notify               NotifyHandler
-    Date                 base.Date
+    Date                 date
     RevTerrain           int64
     RevObjects           int64
 }

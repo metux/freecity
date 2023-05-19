@@ -2,11 +2,10 @@ package simu
 
 import (
     "fmt"
-    "github.com/metux/freecity/core/base"
 )
 
 type NotifySimuNextHour struct {
-    Date base.Date
+    Date date
 }
 
 func (n NotifySimuNextHour) String() string {
@@ -14,7 +13,7 @@ func (n NotifySimuNextHour) String() string {
 }
 
 type NotifySimuNextDay struct {
-    Date base.Date
+    Date date
 }
 
 func (n NotifySimuNextDay) String() string {
@@ -22,7 +21,7 @@ func (n NotifySimuNextDay) String() string {
 }
 
 type NotifySimuNextMonth struct {
-    Date base.Date
+    Date date
 }
 
 func (n NotifySimuNextMonth) String() string {
@@ -30,7 +29,7 @@ func (n NotifySimuNextMonth) String() string {
 }
 
 type NotifySimuNextYear struct {
-    Date base.Date
+    Date date
 }
 
 func (n NotifySimuNextYear) String() string {

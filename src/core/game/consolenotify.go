@@ -3,7 +3,6 @@ package game
 import (
     "log"
     "fmt"
-    "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
 )
 
@@ -12,12 +11,12 @@ type ConsoleNotify struct {
     NotifyCount int
 }
 
-func (cn * ConsoleNotify) notifyfmt(act base.Action, msg string, i ...interface{}) bool {
+func (cn * ConsoleNotify) notifyfmt(act action, msg string, i ...interface{}) bool {
     log.Printf("game: [%4d] %s: %s", cn.NotifyCount, act.String(), fmt.Sprintf(msg, i...))
     cn.NotifyCount++
     return true
 }
 
-func (cn * ConsoleNotify) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
+func (cn * ConsoleNotify) NotifyEmit(a action, n items.NotifyMsg) bool {
     return cn.notifyfmt(a, n.String())
 }
