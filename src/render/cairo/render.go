@@ -4,6 +4,7 @@ import (
     "time"
     "fmt"
     "log"
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/core/game"
@@ -179,8 +180,8 @@ func (r* Renderer) UpdateCursor(pos base.FPoint) (int, int, int, int) {
         new_pos = old_pos
     }
 
-    p1 := base.FPoint{base.Fmin(old_pos.X, new_pos.X), base.Fmin(old_pos.Y, new_pos.Y)}
-    p2 := base.FPoint{base.Fmax(old_pos.X, new_pos.X) + r.tileSize.X, base.Fmax(old_pos.Y, new_pos.Y) + r.tileSize.Y}
+    p1 := base.FPoint{util.Fmin(old_pos.X, new_pos.X), util.Fmin(old_pos.Y, new_pos.Y)}
+    p2 := base.FPoint{util.Fmax(old_pos.X, new_pos.X) + r.tileSize.X, util.Fmax(old_pos.Y, new_pos.Y) + r.tileSize.Y}
 
     pmin := r.Viewport.TranslatePhys(p1).ToPoint()
     pmax := r.Viewport.TranslatePhys(p2).ToPoint()
