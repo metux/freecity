@@ -7,6 +7,7 @@ import (
 
 type BuildingRules struct {
     BuildingTypes []            BuildingType
+    Placable      [] *          BuildingType
     ByName        map[string] * BuildingType
 }
 
@@ -29,6 +30,15 @@ func (this * BuildingRules) Rehash() {
 
 func (this * BuildingRules) Set(l [] BuildingType) {
     this.BuildingTypes = l
+
+    placable := make([]*BuildingType, 0)
+    for idx,_:= range this.BuildingTypes {
+        if this.BuildingTypes[idx].Placable {
+            placable = append(placable, &this.BuildingTypes[idx])
+        }
+    }
+    this.Placable = placable
+
     this.Rehash()
 }
 
