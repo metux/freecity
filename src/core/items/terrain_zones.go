@@ -24,11 +24,5 @@ func (tm * TerrainMap) SetZone(zt ZoneTag, p point) bool {
 }
 
 func (tm * TerrainMap) ZoneRect(zt ZoneTag, rect rect) {
-    x2 := rect.X + rect.Width
-    y2 := rect.Y + rect.Height
-    for x := rect.X; x < x2; x++ {
-        for y := rect.Y; y < y2; y++ {
-            tm.SetZone(zt, point{x,y})
-        }
-    }
+    rect.DoPoints(func (p point) { tm.SetZone(zt, p) })
 }
