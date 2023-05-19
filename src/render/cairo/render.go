@@ -60,7 +60,7 @@ func (r * Renderer) init() {
     r.Theme.LoadImages()
     r.imageCache = make(map[string] * cairo.Surface)
 
-    r.tileSize = r.Viewport.PrescalePoint(r.Theme.TileSize.ToPoint())
+    r.tileSize = r.Viewport.PrescalePoint(r.Theme.TileSize)
 
     hts := r.tileSize.Mul(0.5)
     mapSize := FPoint{float64(r.Terrain.Size.X), float64(r.Terrain.Size.Y)}

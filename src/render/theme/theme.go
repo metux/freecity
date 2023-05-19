@@ -28,7 +28,7 @@ const (
 
 type ThemeSpec struct {
     ThemeDir            string                    `yaml:"-"`
-    TileSize            base.Dim                  `yaml:"tilesize"`
+    TileSize            base.Point                `yaml:"tilesize"`
     Projection          ProjType                  `yaml:"projection"`
     ImageCache          map[string] * image.RGBA  `yaml:"-"`
     ImageCacheLock      sync.RWMutex              `yaml:"-"`
