@@ -4,15 +4,15 @@ import (
     "github.com/metux/freecity/core/base"
 )
 
-func (tm * TerrainMap) isPowerAt(pos Point) bool {
-    if tile := tm.tileAt(pos); tile != nil {
+func (tm * TerrainMap) isPowerAt(p point) bool {
+    if tile := tm.tileAt(p); tile != nil {
         return tile.HasPowerLine()
     }
     return false
 }
 
-func (tm * TerrainMap) updatePowerlineAt(pos Point) {
-    tile := tm.tileAt(pos)
+func (tm * TerrainMap) updatePowerlineAt(p point) {
+    tile := tm.tileAt(p)
 
     // cant use HasPowerLine() here
     if (tile == nil) || (tile.Power.None()) {
@@ -21,44 +21,44 @@ func (tm * TerrainMap) updatePowerlineAt(pos Point) {
 
     // FIXME: need to check for conflicts against roads
     tile.Power = base.LineDirectionFromVec(
-        tm.isPowerAt(pos.North()),
-        tm.isPowerAt(pos.East()),
-        tm.isPowerAt(pos.South()),
-        tm.isPowerAt(pos.West()))
+        tm.isPowerAt(p.North()),
+        tm.isPowerAt(p.East()),
+        tm.isPowerAt(p.South()),
+        tm.isPowerAt(p.West()))
 }
 
-func (tm * TerrainMap) ErrectPowerline(pos Point) (bool) {
-    tile := tm.tileAt(pos)
+func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
+    tile := tm.tileAt(p)
 
     if tile == nil {
-        tm.emit(ActionBuildPowerline, NotifyNoSuchTile{"powerline", pos})
+        tm.emit(ActionBuildPowerline, NotifyNoSuchTile{"powerline", p})
         return false
     }
 
     if tile.Building != nil {
-        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, pos})
+        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
         return false
     }
 
     // FIXME: check terrain
     other := base.LineDirPick(tile.Road, tile.Rail)
     if other.None() {
-        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"road/rail", pos})
+        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"road/rail", p})
         return false
     }
 
-    tm.autoBulldoze(ActionBuildPowerline, pos)
+    tm.autoBulldoze(ActionBuildPowerline, p)
 
     if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.Costs.Powerline, "powerline") {
         return false
     }
 
     tile.Power = other
-    tm.updatePowerlineAt(pos)
-    tm.updatePowerlineAt(pos.North())
-    tm.updatePowerlineAt(pos.East())
-    tm.updatePowerlineAt(pos.South())
-    tm.updatePowerlineAt(pos.West())
+    tm.updatePowerlineAt(p)
+    tm.updatePowerlineAt(p.North())
+    tm.updatePowerlineAt(p.East())
+    tm.updatePowerlineAt(p.South())
+    tm.updatePowerlineAt(p.West())
 
     tm.CalcPowerGrid()
     tm.TouchObjects()
@@ -90,16 +90,16 @@ func (tm * TerrainMap) CalcPowerGrid() {
     tm.PowerGrids = grids
 }
 
-func (t * TerrainMap) ErrectPowerlineH(pos Point, w int) {
+func (t * TerrainMap) ErrectPowerlineH(p point, w int) {
     for i := 0; i<w; i++ {
-        t.ErrectPowerline(pos)
-        pos.X++
+        t.ErrectPowerline(p)
+        p.X++
     }
 }
 
-func (t * TerrainMap) ErrectPowerlineV(pos Point, w int) {
+func (t * TerrainMap) ErrectPowerlineV(p point, w int) {
     for i := 0; i<w; i++ {
-        t.ErrectPowerline(pos)
-        pos.Y++
+        t.ErrectPowerline(p)
+        p.Y++
     }
 }

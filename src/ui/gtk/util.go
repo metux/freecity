@@ -2,7 +2,6 @@ package gtk
 
 import (
     "github.com/gotk3/gotk3/gdk"
-    "github.com/metux/freecity/core/base"
 )
 
 func translateGdkKey(evkey * gdk.EventKey) string {
@@ -13,8 +12,8 @@ func translateGdkKey(evkey * gdk.EventKey) string {
     return prefix+gdk.KeyValName(evkey.KeyVal())
 }
 
-func evMotionFPoint(ev * gdk.Event) base.FPoint {
+func evMotionFPoint(ev * gdk.Event) fpoint {
     ev2 := gdk.EventMotion{ev}
     x, y := ev2.MotionVal()
-    return base.FPoint{x, y}
+    return fpoint{x, y}
 }

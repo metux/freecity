@@ -5,8 +5,8 @@ import (
     "github.com/metux/freecity/core/base"
 )
 
-type Point         = base.Point
-type Rect          = base.Rect
+type point         = util.Point
+type rect          = util.Rect
 type Money         = base.Money
 type LineDirection = base.LineDirection
 type ZoneTag       = base.ZoneTag

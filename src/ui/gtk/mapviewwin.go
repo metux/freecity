@@ -5,7 +5,6 @@ import (
     "github.com/gotk3/gotk3/gtk"
     "github.com/gotk3/gotk3/gdk"
     "github.com/gotk3/gotk3/cairo"
-    "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/render/theme"
     render_cairo "github.com/metux/freecity/render/cairo"
@@ -45,7 +44,7 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
 
 // FIXME
 func (mv * MapViewWindow) clickAt(x, y float64) {
-    p := mv.Renderer.PointerPos(base.FPoint{x, y})
+    p := mv.Renderer.PointerPos(fpoint{x, y})
     log.Println("placing rubble at", p)
     mv.Game.Terrain.PlaceRubble(p)
     mv.DrawingArea.QueueDraw()
@@ -53,10 +52,10 @@ func (mv * MapViewWindow) clickAt(x, y float64) {
 
 func (mv * MapViewWindow) handleMove(cmd [] string, id string) bool {
     switch cmd[1] {
-        case "left":  mv.Renderer.Move(base.FPoint{ mv.Config.MoveStep, 0}); break
-        case "right": mv.Renderer.Move(base.FPoint{-mv.Config.MoveStep, 0}); break
-        case "up":    mv.Renderer.Move(base.FPoint{0,  mv.Config.MoveStep}); break
-        case "down":  mv.Renderer.Move(base.FPoint{0, -mv.Config.MoveStep}); break
+        case "left":  mv.Renderer.Move(fpoint{ mv.Config.MoveStep, 0}); break
+        case "right": mv.Renderer.Move(fpoint{-mv.Config.MoveStep, 0}); break
+        case "up":    mv.Renderer.Move(fpoint{0,  mv.Config.MoveStep}); break
+        case "down":  mv.Renderer.Move(fpoint{0, -mv.Config.MoveStep}); break
         default:
             log.Println("MapViewWindow: unhandled move command:", cmd, id)
             return false

@@ -21,7 +21,7 @@ func (n NotifyFundsSpent) String() string {
 // some action was tried on a non-existing tile, outside of map
 type NotifyNoSuchTile struct {
     Cause string
-    Pos Point
+    Pos point
 }
 
 func (n NotifyNoSuchTile) String() string {
@@ -31,7 +31,7 @@ func (n NotifyNoSuchTile) String() string {
 // something could not be placed on the given point
 type NotifyAlreadyOccupied struct {
     Obj string
-    Pos Point
+    Pos point
 }
 
 func (n NotifyAlreadyOccupied) String() string {
@@ -41,7 +41,7 @@ func (n NotifyAlreadyOccupied) String() string {
 // something could not be placed on the given point
 type NotifyCantPlaceHere struct {
     Obj string
-    Pos Point
+    Pos point
 }
 
 func (n NotifyCantPlaceHere) String() string {

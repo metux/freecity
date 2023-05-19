@@ -9,7 +9,7 @@ type Building struct {
     TypeName            string               `yaml:"type"`
     BuildingType      * rules.BuildingType   `yaml:"-"`
     PowerGrid         * PowerGrid            `yaml:"-"`
-    Position            Point                `yaml:"position"`
+    Position            point                `yaml:"position"`
     Consumption         base.Consumption     `yaml:"consumption"`
     Powered             bool                 `yaml:"-"`
     Terrain           * TerrainMap           `yaml:"-"`
@@ -29,7 +29,7 @@ func (b * Building) IsPowerConsumer() bool {
     return b.Consumption.Power > 0
 }
 
-func (b * Building) OccupiedRect() Rect {
+func (b * Building) OccupiedRect() rect {
     return b.Position.MakeRect(b.BuildingType.Size)
 }
 
@@ -76,7 +76,7 @@ func (b * Building) ConnectTiles() {
     }
 }
 
-func NewBuilding(t * rules.BuildingType, pos Point, tm * TerrainMap) (*Building) {
+func NewBuilding(t * rules.BuildingType, pos point, tm * TerrainMap) (*Building) {
     b := Building{
         BuildingType:     t,
         Position:         pos,

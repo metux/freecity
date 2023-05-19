@@ -6,7 +6,7 @@ import (
     "github.com/metux/freecity/core/rules"
 )
 
-func (tm * TerrainMap) mayPlaceBuildingType(bt * rules.BuildingType, pos Point) bool {
+func (tm * TerrainMap) mayPlaceBuildingType(bt * rules.BuildingType, pos point) bool {
     rect := pos.MakeRect(bt.Size)
 
     tiles, err := tm.TileRange(rect, false)
@@ -37,7 +37,7 @@ func (tm * TerrainMap) ConnectBuildings() {
     tm.CalcPowerGrid()
 }
 
-func (tm * TerrainMap) ErrectBuilding (typename string, pos Point) bool {
+func (tm * TerrainMap) ErrectBuilding (typename string, pos point) bool {
     bt := tm.GeneralRules.FindBuildingType(typename)
     if bt == nil {
         tm.emit(base.ActionErrectBuilding, NotifyNoSuchBuildingType{typename})
@@ -71,7 +71,7 @@ func (tm * TerrainMap) RemoveBuilding(b * Building) {
     tm.Buildings = buf
 }
 
-func (tm * TerrainMap) DemolishBuildingAt(pos Point) bool {
+func (tm * TerrainMap) DemolishBuildingAt(pos point) bool {
     tile := tm.tileAt(pos)
     if tile == nil || tile.Building == nil {
         return false

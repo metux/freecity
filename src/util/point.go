@@ -1,4 +1,4 @@
-package base
+package util
 
 import (
     "fmt"
@@ -29,6 +29,10 @@ func (p Point) East() Point {
 
 func (p Point) West() Point {
     return Point{p.X-1, p.Y}
+}
+
+func (p Point) ToFPoint() FPoint {
+    return FPoint{float64(p.X), float64(p.Y)}
 }
 
 func (p Point) MarshalYAML() (interface{}, error) {

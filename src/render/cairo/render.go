@@ -14,7 +14,9 @@ import (
     "sync"
 )
 
-type FPoint = base.FPoint
+type rect   = util.Rect
+type fpoint = util.FPoint
+type point  = util.Point
 
 type Renderer struct {
     Terrain       * items.TerrainMap
@@ -23,21 +25,21 @@ type Renderer struct {
 
     revTerrain      int64
     revObjects      int64
-    cursorTile      base.Point
+    cursorTile      point
 
-    imgSize         FPoint
+    imgSize         fpoint
     imageCache      map[string] * cairo.Surface
     imageCacheLock  sync.RWMutex
     loaded          bool
     basemap       * cairo.Surface
     fullmap       * cairo.Surface
 
-    tileOrigin      FPoint
-    tileSize        FPoint
-    tileStepX       FPoint
-    tileStepY       FPoint
-    tileRStepX      FPoint
-    tileRStepY      FPoint
+    tileOrigin      fpoint
+    tileSize        fpoint
+    tileStepX       fpoint
+    tileStepY       fpoint
+    tileRStepX      fpoint
+    tileRStepY      fpoint
 
     Viewport        render.Viewport
 
@@ -64,24 +66,24 @@ func (r * Renderer) init() {
     r.tileSize = r.Viewport.PrescalePoint(r.Theme.TileSize)
 
     hts := r.tileSize.Mul(0.5)
-    mapSize := FPoint{float64(r.Terrain.Size.X), float64(r.Terrain.Size.Y)}
+    mapSize := r.Terrain.Size.ToFPoint()
 
     switch r.Theme.Projection {
         case theme.ProjFlat:
-            r.imgSize    = FPoint{mapSize.X * r.tileSize.X, mapSize.Y * r.tileSize.Y}
-            r.tileOrigin = FPoint{0,                        0}
-            r.tileStepX  = FPoint{r.tileSize.X,             0}
-            r.tileStepY  = FPoint{0,                        r.tileSize.Y}
-            r.tileStepX  = FPoint{1/r.tileSize.X,           0}
-            r.tileStepY  = FPoint{0,                        1/r.tileSize.Y}
+            r.imgSize    = fpoint{mapSize.X * r.tileSize.X, mapSize.Y * r.tileSize.Y}
+            r.tileOrigin = fpoint{0,                        0}
+            r.tileStepX  = fpoint{r.tileSize.X,             0}
+            r.tileStepY  = fpoint{0,                        r.tileSize.Y}
+            r.tileStepX  = fpoint{1/r.tileSize.X,           0}
+            r.tileStepY  = fpoint{0,                        1/r.tileSize.Y}
         break
         case theme.ProjParallel:
-            r.imgSize    = FPoint{mapSize.X * r.tileSize.X, mapSize.Y * r.tileSize.Y}
-            r.tileOrigin = FPoint{r.imgSize.X / 2 - hts.X,  0}
-            r.tileStepX  = FPoint{ hts.X,                   hts.Y}
-            r.tileStepY  = FPoint{-hts.X,                   hts.Y}
-            r.tileRStepX = FPoint{hts.X,                    -hts.Y}
-            r.tileRStepY = FPoint{hts.X,                    hts.Y}
+            r.imgSize    = fpoint{mapSize.X * r.tileSize.X, mapSize.Y * r.tileSize.Y}
+            r.tileOrigin = fpoint{r.imgSize.X / 2 - hts.X,  0}
+            r.tileStepX  = fpoint{ hts.X,                   hts.Y}
+            r.tileStepY  = fpoint{-hts.X,                   hts.Y}
+            r.tileRStepX = fpoint{hts.X,                    -hts.Y}
+            r.tileRStepY = fpoint{hts.X,                    hts.Y}
         break
         default:
             panic("unsupported projection: "+r.Theme.Projection.String())
@@ -104,7 +106,7 @@ func (r* Renderer) getImage(name string) * cairo.Surface {
         return nil
     }
 
-    scaledSz := r.Viewport.PrescalePoint(base.Point{img.GetWidth(), img.GetHeight()})
+    scaledSz := r.Viewport.PrescalePoint(point{img.GetWidth(), img.GetHeight()})
     scaledImg := cairo.CreateImageSurface(spriteFormat, int(scaledSz.X), int(scaledSz.Y))
 
     scaledCtx := cairo.Create(scaledImg)
@@ -119,7 +121,7 @@ func (r* Renderer) getImage(name string) * cairo.Surface {
     return scaledImg
 }
 
-func (r* Renderer) overlayTileImage(cr * cairo.Context, p base.FPoint, name string) {
+func (r* Renderer) overlayTileImage(cr * cairo.Context, p fpoint, name string) {
     if name != "" {
         if i2 := r.getImage(name); i2 != nil {
             cr.SetSourceSurface(i2, p.X, p.Y)
@@ -128,11 +130,11 @@ func (r* Renderer) overlayTileImage(cr * cairo.Context, p base.FPoint, name stri
     }
 }
 
-func (r* Renderer) overlayTile(cr * cairo.Context, pos base.Point, name string) {
+func (r* Renderer) overlayTile(cr * cairo.Context, pos point, name string) {
     r.overlayTileImage(cr, r.tilePos(pos), name)
 }
 
-func (r * Renderer) PointerPos(ptr FPoint) base.Point {
+func (r * Renderer) PointerPos(ptr fpoint) point {
     // translate back from physical to virtual coordinates
     virt := r.Viewport.TranslateBack(ptr).Sub(r.tileOrigin)
 
@@ -140,10 +142,10 @@ func (r * Renderer) PointerPos(ptr FPoint) base.Point {
     norm := virt.Compress(r.tileSize)
 
     n2, f2 := norm.Raster()
-    f3 := FPoint{1-f2.X, 1-f2.Y}
+    f3 := fpoint{1-f2.X, 1-f2.Y}
 
     // corner triangle correction
-    trans := base.Point{ n2.X + n2.Y, -n2.X + n2.Y}
+    trans := point{ n2.X + n2.Y, -n2.X + n2.Y}
     if f2.X < 0.5 && f2.Y < 0.5 && f2.X + f2.Y < 0.5 {
         trans.X -= 1
     }
@@ -161,7 +163,7 @@ func (r * Renderer) PointerPos(ptr FPoint) base.Point {
 }
 
 // FIXME: honor prescale
-func (r* Renderer) UpdateCursor(pos base.FPoint) (int, int, int, int) {
+func (r* Renderer) UpdateCursor(pos fpoint) (int, int, int, int) {
     newCursorTile := r.PointerPos(pos)
 
     if newCursorTile == r.cursorTile {
@@ -180,8 +182,8 @@ func (r* Renderer) UpdateCursor(pos base.FPoint) (int, int, int, int) {
         new_pos = old_pos
     }
 
-    p1 := base.FPoint{util.Fmin(old_pos.X, new_pos.X), util.Fmin(old_pos.Y, new_pos.Y)}
-    p2 := base.FPoint{util.Fmax(old_pos.X, new_pos.X) + r.tileSize.X, util.Fmax(old_pos.Y, new_pos.Y) + r.tileSize.Y}
+    p1 := fpoint{util.Fmin(old_pos.X, new_pos.X), util.Fmin(old_pos.Y, new_pos.Y)}
+    p2 := fpoint{util.Fmax(old_pos.X, new_pos.X) + r.tileSize.X, util.Fmax(old_pos.Y, new_pos.Y) + r.tileSize.Y}
 
     pmin := r.Viewport.TranslatePhys(p1).ToPoint()
     pmax := r.Viewport.TranslatePhys(p2).ToPoint()
@@ -189,9 +191,9 @@ func (r* Renderer) UpdateCursor(pos base.FPoint) (int, int, int, int) {
     return pmin.X, pmin.Y, pmax.X, pmax.Y
 }
 
-func (r* Renderer) tilePos(pos base.Point) base.FPoint {
+func (r* Renderer) tilePos(pos point) fpoint {
     pX, pY := float64(pos.X), float64(pos.Y)
-    return base.FPoint{r.tileOrigin.X + r.tileStepX.X * pX + r.tileStepY.X * pY,
+    return fpoint{r.tileOrigin.X + r.tileStepX.X * pX + r.tileStepY.X * pY,
            r.tileOrigin.Y + r.tileStepX.Y * pX + r.tileStepY.Y * pY}
 }
 
@@ -216,7 +218,7 @@ func (r* Renderer) renderTileBase(cr * cairo.Context, tr items.TileRef) {
     }
 }
 
-func (r * Renderer) renderTileBorder(cr * cairo.Context, rect base.Rect) {
+func (r * Renderer) renderTileBorder(cr * cairo.Context, rect rect) {
     r.overlayTile(cr, rect.TopLeft(),     theme.ImgBorderTopLeft)
     r.overlayTile(cr, rect.TopRight(),    theme.ImgBorderTopRight)
     r.overlayTile(cr, rect.BottomLeft(),  theme.ImgBorderBottomLeft)
@@ -224,15 +226,15 @@ func (r * Renderer) renderTileBorder(cr * cairo.Context, rect base.Rect) {
 
     if (rect.Width > 2) {
         for x:=rect.X+1; x<rect.X + rect.Width-1; x++ {
-            r.overlayTile(cr, base.Point{x, rect.Y}, theme.ImgBorderTop)
-            r.overlayTile(cr, base.Point{x, rect.Y + rect.Height - 1}, theme.ImgBorderBottom)
+            r.overlayTile(cr, point{x, rect.Y}, theme.ImgBorderTop)
+            r.overlayTile(cr, point{x, rect.Y + rect.Height - 1}, theme.ImgBorderBottom)
         }
     }
 
     if (rect.Height > 2) {
         for y:=rect.Y+1; y<rect.Y + rect.Height-1; y++ {
-            r.overlayTile(cr, base.Point{rect.X, y}, theme.ImgBorderLeft)
-            r.overlayTile(cr, base.Point{rect.X + rect.Width - 1, y}, theme.ImgBorderRight)
+            r.overlayTile(cr, point{rect.X, y}, theme.ImgBorderLeft)
+            r.overlayTile(cr, point{rect.X + rect.Width - 1, y}, theme.ImgBorderRight)
         }
     }
 }
@@ -336,7 +338,7 @@ func (r * Renderer) ZoomStep(z float64) {
     r.SetScale(r.Viewport.Scale + z)
 }
 
-func (r * Renderer) Move(v base.FPoint) {
+func (r * Renderer) Move(v fpoint) {
     r.Viewport.Offset.X += v.X
     r.Viewport.Offset.Y += v.Y
 }

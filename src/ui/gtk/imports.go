@@ -1,7 +1,8 @@
 package gtk
 
 import (
-    "github.com/metux/freecity/core/base"
+    "github.com/metux/freecity/util"
 )
 
-type point = base.Point
+type point = util.Point
+type fpoint = util.FPoint

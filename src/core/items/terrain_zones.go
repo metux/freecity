@@ -1,15 +1,15 @@
 package items
 
 // FIXME: costs and constraints (tile type, ...)
-func (tm * TerrainMap) SetZone(zt ZoneTag, pos Point) bool {
-    tile := tm.tileAt(pos)
+func (tm * TerrainMap) SetZone(zt ZoneTag, p point) bool {
+    tile := tm.tileAt(p)
     if tile == nil {
-        tm.emit(ActionZoning, NotifyNoSuchTile{"zone "+string(zt), pos})
+        tm.emit(ActionZoning, NotifyNoSuchTile{"zone "+string(zt), p})
         return false
     }
 
     if ! tile.ZoneTag.MayUpgrade(zt) {
-        tm.emit(ActionZoning, NotifyAlreadyOccupied{"zone "+string(zt), pos})
+        tm.emit(ActionZoning, NotifyAlreadyOccupied{"zone "+string(zt), p})
         return false
     }
 
@@ -23,12 +23,12 @@ func (tm * TerrainMap) SetZone(zt ZoneTag, pos Point) bool {
     return true
 }
 
-func (tm * TerrainMap) ZoneRect(zt ZoneTag, rect Rect) {
+func (tm * TerrainMap) ZoneRect(zt ZoneTag, rect rect) {
     x2 := rect.X + rect.Width
     y2 := rect.Y + rect.Height
     for x := rect.X; x < x2; x++ {
         for y := rect.Y; y < y2; y++ {
-            tm.SetZone(zt, Point{x,y})
+            tm.SetZone(zt, point{x,y})
         }
     }
 }

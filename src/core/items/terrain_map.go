@@ -8,7 +8,7 @@ import (
 )
 
 type TerrainMap struct {
-    Size                 base.Point
+    Size                 point
     Tiles           []   Tile
     Buildings       [] * Building
     PowerGrids      []   PowerGrid
@@ -28,7 +28,7 @@ func (tm * TerrainMap) CreateMap() {
     tm.Tiles = make([]Tile, tm.Size.X * tm.Size.Y)
 }
 
-func (tm * TerrainMap) tilePoint(p Point) (TileRef, error) {
+func (tm * TerrainMap) tilePoint(p point) (TileRef, error) {
     if (!tm.Size.HasPoint(p)) {
         return TileRef{}, errors.New("coords out of range: "+p.String())
     }
@@ -39,7 +39,7 @@ func (tm * TerrainMap) tilePoint(p Point) (TileRef, error) {
     }, nil
 }
 
-func (tm * TerrainMap) tileAt(p Point) * Tile {
+func (tm * TerrainMap) tileAt(p point) * Tile {
     if (!tm.Size.HasPoint(p)) {
         return nil
     }
@@ -51,11 +51,11 @@ func (tm * TerrainMap) AllTiles() (TileSet) {
     return tiles
 }
 
-func (tm * TerrainMap) TileRange(rect Rect, ignore bool) (TileSet, error) {
+func (tm * TerrainMap) TileRange(rect rect, ignore bool) (TileSet, error) {
     buffer := make(TileSet, 0)
     for x := rect.X; x < (rect.X + rect.Width); x++ {
         for y := rect.Y; y < (rect.Y + rect.Height); y++ {
-            ref, err := tm.tilePoint(Point{x, y})
+            ref, err := tm.tilePoint(point{x, y})
             if err != nil {
                 if ignore {
                     log.Println("reached the border")
@@ -117,7 +117,7 @@ func (tm * TerrainMap) Update(act Action) {
     tm.CheckPower(act)
 }
 
-func (tm * TerrainMap) autoBulldoze(act Action, pos Point) {
+func (tm * TerrainMap) autoBulldoze(act Action, pos point) {
     tm.CleanRubble(act, pos)
     tm.CleanWood(act, pos)
 }
