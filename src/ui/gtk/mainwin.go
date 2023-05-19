@@ -7,6 +7,7 @@ import (
     "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/core/items"
+    "github.com/metux/freecity/ui/common"
     "log"
 )
 
@@ -47,10 +48,25 @@ func (mw * MainWindow) HandleCmd(cmd [] string, id string) bool {
 }
 
 func (mw * MainWindow) InitBuildMenu() {
+    m := mw.Config.MainMenu.FindById("build")
+
+    log.Println("builder menu", m)
+
     for idx,bt := range mw.Game.Terrain.GeneralRules.Buildings.BuildingTypes {
 //    for idx,bt := range mw.Game.Terrain.GeneralRules.Buildings.Placable {
         log.Println("building --> ", idx, bt)
+
+//        if bt.Placable {
+        m.Submenu = append(m.Submenu, common.MenuEntry{
+            Label: bt.Name,
+            Id: bt.Name,
+            Cmd: "place-building "+bt.Name,
+            CmdHandler: m.CmdHandler,
+        })
+//        }
     }
+
+    m.CreateEntries()
 }
 
 func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string) {

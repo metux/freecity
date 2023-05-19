@@ -41,7 +41,8 @@ mainmenu:
             id:    speed.3
             type:  check
       - label: _Build
-        submenu:
+        id: build
+        type: submenu
 windowtitle: FreeCity
 keymap:
     KEY_Left:  mapview move left
