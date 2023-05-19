@@ -54,11 +54,7 @@ func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
     }
 
     tile.Power = other
-    tm.updatePowerlineAt(p)
-    tm.updatePowerlineAt(p.North())
-    tm.updatePowerlineAt(p.East())
-    tm.updatePowerlineAt(p.South())
-    tm.updatePowerlineAt(p.West())
+    p.DoOnPointAndSurrounding(tm.updatePowerlineAt)
 
     tm.CalcPowerGrid()
     tm.TouchObjects()

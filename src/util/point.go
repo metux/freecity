@@ -55,6 +55,14 @@ func (p Point) Surrounding() Rect {
     return Rect{p.X - 1, p.Y - 1, 3, 3}
 }
 
+func (p Point) DoOnPointAndSurrounding(f func(p Point)) {
+    f(p)
+    f(p.North())
+    f(p.East())
+    f(p.South())
+    f(p.West())
+}
+
 func (p *Point) UnmarshalYAML(value *yaml.Node) error {
     var tmpStr string
 

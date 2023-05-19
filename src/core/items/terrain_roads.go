@@ -50,11 +50,8 @@ func (tm * TerrainMap) ErrectRoad(p point) bool {
     }
 
     tile.Road = other
-    tm.updateRoadAt(p)
-    tm.updateRoadAt(p.North())
-    tm.updateRoadAt(p.East())
-    tm.updateRoadAt(p.South())
-    tm.updateRoadAt(p.West())
+
+    p.DoOnPointAndSurrounding(tm.updateRoadAt)
 
     tm.TouchObjects()
     return true

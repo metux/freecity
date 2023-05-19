@@ -18,7 +18,7 @@ func (tiles TileSet) AllFlat() bool {
 func (tiles TileSet) AllLandFlat() bool {
     for _, t := range tiles {
         if ! t.Tile.IsLand() || ! t.Tile.IsFlat() {
-            return false;
+            return false
         }
     }
     return true

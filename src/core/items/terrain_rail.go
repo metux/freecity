@@ -51,11 +51,8 @@ func (tm * TerrainMap) ErrectRail(p point) (bool) {
     }
 
     tile.Rail = other
-    tm.updateRailAt(p)
-    tm.updateRailAt(p.North())
-    tm.updateRailAt(p.East())
-    tm.updateRailAt(p.South())
-    tm.updateRailAt(p.West())
+
+    p.DoOnPointAndSurrounding(tm.updateRailAt)
 
     tm.TouchObjects()
     return true
