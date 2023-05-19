@@ -7,8 +7,7 @@ import (
 
 type Config struct {
     WindowTitle   string              `yaml:"windowtitle"`
-    WindowWidth   int                 `yaml:"windowwidth"`
-    WindowHeight  int                 `yaml:"windowheight"`
+    WindowSize    point               `yaml:"windowsize"`
     DataPrefix    string              `yaml:"-"`
     Theme         string              `yaml:"theme"`
     Prescale      float64             `yaml:"prescale"`
@@ -29,8 +28,7 @@ func LoadUIYaml(prefix string) * Config {
         ZoomStep:       0.005,
         MoveStep:       10,
         DataPrefix:     prefix,
-        WindowWidth:    1024,
-        WindowHeight:   768,
+        WindowSize:     point { 1024, 768 },
     }
 
     fn := prefix + "/ui/gtk.yaml"

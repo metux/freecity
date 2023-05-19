@@ -56,7 +56,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.window,_= gtk.ApplicationWindowNew(app)
     mw.window.SetTitle(mw.Config.WindowTitle)
     mw.window.Connect("destroy", func() { mw.HandleCmd([]string{"quit"}, "") })
-    mw.window.SetDefaultSize(mw.Config.WindowWidth, mw.Config.WindowHeight)
+    mw.window.SetDefaultSize(mw.Config.WindowSize.X, mw.Config.WindowSize.Y)
 
     mw.Box,_ = gtk.BoxNew(gtk.ORIENTATION_VERTICAL,0)
     mw.window.Add(mw.Box)
