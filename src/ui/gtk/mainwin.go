@@ -126,7 +126,6 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
 
     // create the map viewer
     mw.MapView.DoWorkAt = func(p point) {
-        log.Println("Do work at", p, mw.Tool.GetName())
         mw.Tool.WorkAt(mw.Game, p)
     }
     mw.MapView.Init(mw.Game, mw.Box, mw.Config, func(s string) {
