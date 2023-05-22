@@ -12,32 +12,40 @@ const (
 )
 
 type StatusBarWindow struct {
-    StatusBar * gtk.Statusbar
-    ToolName  * gtk.Label
+    widgetStatusBar * gtk.Statusbar
+    widgetToolName  * gtk.Label
+
+    message string
+    toolName string
 }
 
 func (sb * StatusBarWindow) SetMessage(s string) {
-    if (sb.StatusBar != nil) {
-        sb.StatusBar.Push(3, s)
+    sb.message = s
+    if (sb.widgetStatusBar != nil) {
+        sb.widgetStatusBar.Push(3, s)
     }
 }
 
 func (sb * StatusBarWindow) SetToolName(n string) {
-    if sb.ToolName != nil {
-        sb.ToolName.SetText(n)
+    sb.toolName = n
+    if sb.widgetToolName != nil {
+        sb.widgetToolName.SetText(n)
     }
 }
 
 func (sb * StatusBarWindow) Init(parent * gtk.Box) {
-    sb.StatusBar,_ = gtk.StatusbarNew()
-    parent.PackEnd(sb.StatusBar, false, false, 0)
+    sb.widgetStatusBar,_ = gtk.StatusbarNew()
+    parent.PackEnd(sb.widgetStatusBar, false, false, 0)
 
     sep1,_ := gtk.SeparatorNew(gtk.ORIENTATION_VERTICAL)
     sep1.SetMarginStart(margin)
     sep1.SetMarginEnd(margin)
-    sb.StatusBar.PackStart(sep1, false, false, padding)
+    sb.widgetStatusBar.PackStart(sep1, false, false, padding)
 
-    sb.ToolName,_ = gtk.LabelNew("FOO")
-    sb.ToolName.SetSizeRequest(labelWidth, labelHeight)
-    sb.StatusBar.PackStart(sb.ToolName, false, false, padding)
+    sb.widgetToolName,_ = gtk.LabelNew("")
+    sb.widgetToolName.SetSizeRequest(labelWidth, labelHeight)
+    sb.widgetStatusBar.PackStart(sb.widgetToolName, false, false, padding)
+
+    sb.SetMessage(sb.message)
+    sb.SetToolName(sb.toolName)
 }
