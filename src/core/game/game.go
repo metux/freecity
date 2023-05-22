@@ -29,8 +29,15 @@ func (g * Game) InitGame(rulesdir string, ruleset string) {
         g.Notify = new(ConsoleNotify)
     }
 
-    g.Terrain.Init(rulesdir, ruleset, g.Notify)
-    g.Simu.Init(&g.Terrain, g.Terrain.Notify)
+    g.Terrain.Init(rulesdir, ruleset, g)
+    g.Simu.Init(&g.Terrain, g)
+}
+
+func (g * Game) NotifyEmit(a action, msg items.NotifyMsg) bool {
+    if g.Notify != nil {
+        return g.Notify.NotifyEmit(a, msg)
+    }
+    return false
 }
 
 func (g * Game) SetNotify(nh items.NotifyHandler) items.NotifyHandler {
