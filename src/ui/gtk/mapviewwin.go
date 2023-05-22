@@ -7,6 +7,7 @@ import (
     "github.com/gotk3/gotk3/cairo"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/render/theme"
+    "github.com/metux/freecity/ui/tools"
     render_cairo "github.com/metux/freecity/render/cairo"
 )
 
@@ -15,6 +16,7 @@ type MapViewWindow struct {
     Renderer    * render_cairo.Renderer
     DrawingArea * gtk.DrawingArea
     Game        * game.Game
+    Tool          tools.Tool
 }
 
 func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, statusmsg func(s string)) {
@@ -25,6 +27,9 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
     mv.Renderer = render_cairo.CreateRenderer(g, theme.CreateTheme(cf.DataPrefix + "/themes/" + cf.Theme), statusmsg)
     mv.Renderer.Viewport.Prescale = cf.Prescale
     mv.Renderer.SetScale(cf.Scale)
+
+    // FIXME
+    mv.Tool = &tools.Rubble { }
 
     // Event handlers
     mv.DrawingArea.AddEvents(int(gdk.POINTER_MOTION_MASK | gdk.BUTTON_PRESS_MASK))
@@ -42,11 +47,12 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
     parent.PackStart(mv.DrawingArea, true, true, 0)
 }
 
-// FIXME
+// FIXME: differentiate buttons
 func (mv * MapViewWindow) clickAt(x, y float64) {
     p := mv.Renderer.PointerPos(fpoint{x, y})
-    log.Println("placing rubble at", p)
-    mv.Game.Terrain.PlaceRubble(p)
+    mv.Tool.WorkAt(mv.Game, p)
+//    log.Println("placing rubble at", p)
+//    mv.Game.Terrain.PlaceRubble(p)
     mv.DrawingArea.QueueDraw()
 }
 
