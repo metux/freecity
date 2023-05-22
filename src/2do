@@ -43,7 +43,7 @@
     * maybe add extra clipping to final target surface ?
 
 * UI GTK
-    * menu bar
-    * retrieve available building list
     * Wall clock
     * prescale vs pointer-2-tile
+    * menu "buildings"
+    * menu for roads

@@ -11,7 +11,7 @@ type Building struct {
 
 func (t * Building) GetName() string {
     return fmt.Sprintf("Building: %s (%dx%d)",
-        t.BuildingType.Ident,
+        t.BuildingType.Label,
         t.BuildingType.Size.X,
         t.BuildingType.Size.Y)
 }

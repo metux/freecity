@@ -16,13 +16,12 @@ type MainWindow struct {
     App       * gtk.Application
     window    * gtk.ApplicationWindow
     MapView     MapViewWindow
+    StatusBar   StatusBarWindow
     Game      * game.Game
     Console     items.NotifyHandler
     Box       * gtk.Box
     Config    * Config
-    StatusBar * gtk.Statusbar
     Tool        tools.Tool
-    Status2   * gtk.Label
 }
 
 func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
@@ -33,7 +32,7 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
             return true
         }
     }
-    mw.StatusBar.Push(2, n.String())
+    mw.StatusBar.SetMessage(n.String())
     return false
 }
 
@@ -76,7 +75,8 @@ func (mw * MainWindow) InitBuildMenu() {
 func (mw * MainWindow) SetTool(t tools.Tool) {
     if t != nil {
         mw.Tool = t
-        mw.StatusBar.Push(3, "Tool: "+t.GetName())
+        mw.StatusBar.SetMessage("Tool: "+t.GetName())
+        mw.StatusBar.SetToolName(t.GetName())
     }
 }
 
@@ -99,17 +99,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.window.Add(mw.Box)
 
     // create the status bar (fixme: separate object ?)
-    padding := uint(0)
-    labelWidth := 50
-    labelHeight := 20
-    mw.StatusBar,_ = gtk.StatusbarNew()
-    sep1,_ := gtk.SeparatorNew(gtk.ORIENTATION_VERTICAL)
-    sep1.SetMarginStart(10)
-    sep1.SetMarginEnd(10)
-    mw.StatusBar.PackStart(sep1, false, false, padding)
-    mw.Status2,_ = gtk.LabelNew("FOO")
-    mw.Status2.SetSizeRequest(labelWidth, labelHeight)
-    mw.StatusBar.PackStart(mw.Status2, false, false, padding)
+    mw.StatusBar.Init(mw.Box)
 
     // init menu
     mw.Config.MainMenu.SetHandler(mw)
@@ -123,11 +113,9 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
         mw.Tool.WorkAt(mw.Game, p)
     }
     mw.MapView.Init(mw.Game, mw.Box, mw.Config, func(s string) {
-        mw.StatusBar.Push(3, s)})
+        mw.StatusBar.SetMessage(s)})
 
-    // statusbar
-    mw.Box.PackEnd(mw.StatusBar, false, false, 0)
-    mw.StatusBar.Push(1, "game startup")
+    mw.StatusBar.SetMessage("game startup")
 
     // FIXME: handle mouse click to center
     mw.window.Connect("key-press-event", func(win *gtk.ApplicationWindow, ev *gdk.Event) {

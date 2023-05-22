@@ -42,7 +42,7 @@ mainmenu:
             cmd:   game speed 3
             id:    speed.3
             type:  check
-      - label: _Build
+      - label: _Buildings
         id: build
         type: submenu
 windowtitle: FreeCity

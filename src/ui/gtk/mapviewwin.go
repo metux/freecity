@@ -45,9 +45,7 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
 
 // FIXME: differentiate buttons
 func (mv * MapViewWindow) clickAt(x, y float64) {
-    p := mv.Renderer.PointerPos(fpoint{x, y})
-//    mv.Tool.WorkAt(mv.Game, p)
-    mv.DoWorkAt(p)
+    mv.DoWorkAt(mv.Renderer.PointerPos(fpoint{x, y}))
     mv.DrawingArea.QueueDraw()
 }
 
