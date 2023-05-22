@@ -22,6 +22,7 @@ type MainWindow struct {
     Config    * Config
     StatusBar * gtk.Statusbar
     Tool        tools.Tool
+    Status2   * gtk.Label
 }
 
 func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
@@ -97,7 +98,18 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.Box,_ = gtk.BoxNew(gtk.ORIENTATION_VERTICAL,0)
     mw.window.Add(mw.Box)
 
+    // create the status bar (fixme: separate object ?)
+    padding := uint(0)
+    labelWidth := 50
+    labelHeight := 20
     mw.StatusBar,_ = gtk.StatusbarNew()
+    sep1,_ := gtk.SeparatorNew(gtk.ORIENTATION_VERTICAL)
+    sep1.SetMarginStart(10)
+    sep1.SetMarginEnd(10)
+    mw.StatusBar.PackStart(sep1, false, false, padding)
+    mw.Status2,_ = gtk.LabelNew("FOO")
+    mw.Status2.SetSizeRequest(labelWidth, labelHeight)
+    mw.StatusBar.PackStart(mw.Status2, false, false, padding)
 
     // init menu
     mw.Config.MainMenu.SetHandler(mw)
