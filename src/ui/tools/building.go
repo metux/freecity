@@ -1,7 +1,6 @@
 package tools
 
 import (
-    "log"
     "fmt"
     "github.com/metux/freecity/core/rules"
 )
@@ -18,6 +17,5 @@ func (t * Building) GetName() string {
 }
 
 func (t * Building) WorkAt(game * Game, p point) {
-    log.Println(" --> placing rubble at", p)
     game.Terrain.ErrectBuilding(t.BuildingType.Ident, p)
 }

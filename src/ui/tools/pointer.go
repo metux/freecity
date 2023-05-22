@@ -8,7 +8,7 @@ type Pointer struct {
 }
 
 func (t * Pointer) GetName() string {
-    return "Rubble"
+    return "Pointer"
 }
 
 func (t * Pointer) WorkAt(game * Game, p point) {
