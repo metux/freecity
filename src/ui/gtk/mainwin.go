@@ -8,6 +8,7 @@ import (
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/ui/common"
+    "github.com/metux/freecity/ui/tools"
     "log"
 )
 
@@ -20,6 +21,7 @@ type MainWindow struct {
     Box       * gtk.Box
     Config    * Config
     StatusBar * gtk.Statusbar
+    Tool        tools.Tool
 }
 
 func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
@@ -69,13 +71,21 @@ func (mw * MainWindow) InitBuildMenu() {
     m.CreateEntries()
 }
 
+func (mw * MainWindow) SetTool(t tools.Tool) {
+    mw.Tool = t
+    mw.StatusBar.Push(3, "Tool: "+t.GetName())
+}
+
 func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string) {
     mw.Config = LoadUIYaml(datadir)
     mw.App = app
-
     mw.Game = g
     mw.Console = g.SetNotify(mw)
 
+    // set initial tool
+    mw.SetTool(&tools.Rubble{})
+
+    // create main window
     mw.window,_= gtk.ApplicationWindowNew(app)
     mw.window.SetTitle(mw.Config.WindowTitle)
     mw.window.Connect("destroy", func() { mw.HandleCmd([]string{"quit"}, "") })
@@ -93,7 +103,11 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     // create the buildings menu
     mw.InitBuildMenu()
 
-    mw.MapView = MapViewWindow{}
+    // create the map viewer
+    mw.MapView.DoWorkAt = func(p point) {
+        log.Println("Do work at", p, mw.Tool.GetName())
+        mw.Tool.WorkAt(mw.Game, p)
+    }
     mw.MapView.Init(mw.Game, mw.Box, mw.Config, func(s string) {
         mw.StatusBar.Push(3, s)})
 

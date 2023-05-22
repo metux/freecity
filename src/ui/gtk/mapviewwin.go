@@ -7,7 +7,6 @@ import (
     "github.com/gotk3/gotk3/cairo"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/render/theme"
-    "github.com/metux/freecity/ui/tools"
     render_cairo "github.com/metux/freecity/render/cairo"
 )
 
@@ -16,7 +15,7 @@ type MapViewWindow struct {
     Renderer    * render_cairo.Renderer
     DrawingArea * gtk.DrawingArea
     Game        * game.Game
-    Tool          tools.Tool
+    DoWorkAt    func (p point)
 }
 
 func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, statusmsg func(s string)) {
@@ -27,9 +26,6 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
     mv.Renderer = render_cairo.CreateRenderer(g, theme.CreateTheme(cf.DataPrefix + "/themes/" + cf.Theme), statusmsg)
     mv.Renderer.Viewport.Prescale = cf.Prescale
     mv.Renderer.SetScale(cf.Scale)
-
-    // FIXME
-    mv.Tool = &tools.Rubble { }
 
     // Event handlers
     mv.DrawingArea.AddEvents(int(gdk.POINTER_MOTION_MASK | gdk.BUTTON_PRESS_MASK))
@@ -50,7 +46,8 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
 // FIXME: differentiate buttons
 func (mv * MapViewWindow) clickAt(x, y float64) {
     p := mv.Renderer.PointerPos(fpoint{x, y})
-    mv.Tool.WorkAt(mv.Game, p)
+//    mv.Tool.WorkAt(mv.Game, p)
+    mv.DoWorkAt(p)
     mv.DrawingArea.QueueDraw()
 }
 
