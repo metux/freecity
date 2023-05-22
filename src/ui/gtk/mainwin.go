@@ -36,12 +36,33 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
     return false
 }
 
+func (mw * MainWindow) chooseTool(cmd [] string) tools.Tool {
+    switch cmd[0] {
+        case "rubble":   return &tools.Rubble{}
+        case "pointer":  return &tools.Pointer{}
+        case "building": return &tools.Building{BuildingType: mw.Game.FindBuildingType(cmd[1])}
+    }
+    return nil
+}
+
+func (mw * MainWindow) handleCmdTool(cmd [] string, id string) bool {
+    log.Println("Tool: ", cmd, "("+id+")")
+    t := mw.chooseTool(cmd)
+
+    if t != nil {
+        mw.SetTool(t)
+        return true
+    }
+    return false
+}
+
 func (mw * MainWindow) HandleCmd(cmd [] string, id string) bool {
     switch cmd[0] {
         case "": return false
         case "mapview": return mw.MapView.HandleCmd(cmd[1:], id)
         case "quit": mw.App.Quit(); break
         case "game": return mw.Game.HandleCmd(cmd[1:], id)
+        case "tool": return mw.handleCmdTool(cmd[1:], id)
         default:
             log.Println("MainWindow: unhandled command: ", cmd, id)
             return false

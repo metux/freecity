@@ -6,6 +6,7 @@ import (
     "strconv"
     "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
+    "github.com/metux/freecity/core/rules"
     "github.com/metux/freecity/core/simu"
 )
 
@@ -70,4 +71,8 @@ func (g * Game) HandleCmd(cmd [] string, id string) bool {
             log.Println("Game: unknown command: ", cmd, id)
             return false
     }
+}
+
+func (g * Game) FindBuildingType(bt string) * rules.BuildingType {
+    return g.Terrain.GeneralRules.FindBuildingType(bt)
 }
