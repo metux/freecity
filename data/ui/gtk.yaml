@@ -21,6 +21,8 @@ mainmenu:
             cmd:   edit undo
           - label: _Redo
             cmd:   edit redo
+          - label: _Repaint
+            cmd:   mapview repaint
       - label: _Speed
         id: game.speed
         submenu:

@@ -81,9 +81,9 @@ func (mw * MainWindow) InitBuildMenu() {
 
 //        if bt.Placable {
         m.Submenu = append(m.Submenu, common.MenuEntry{
-            Label: bt.Label,
-            Id:    bt.Ident,
-            Cmd:   "place-building "+bt.Ident,
+            Label:      bt.Label,
+            Id:         bt.Ident,
+            Cmd:        "tool building "+bt.Ident,
             CmdHandler: m.CmdHandler,
         })
 //        }

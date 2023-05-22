@@ -81,6 +81,11 @@ func (mv * MapViewWindow) HandleCmd(cmd [] string, id string) bool {
     switch cmd[0] {
         case "move": return mv.handleMove(cmd, id)
         case "zoom": return mv.handleZoom(cmd, id)
+        case "repaint": {
+            mv.Game.Terrain.TouchTerrain()
+            mv.DrawingArea.QueueDraw()
+            return true
+        }
         default:
             log.Println("MapViewWindow: unhandled command:", cmd, id)
             return false

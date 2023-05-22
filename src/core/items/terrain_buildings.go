@@ -56,6 +56,7 @@ func (tm * TerrainMap) ErrectBuilding (typename string, pos point) bool {
     b.ConnectTiles()
     tm.CalcPowerGrid()
     tm.emit(base.ActionErrectBuilding, NotifyBuildingErrected{b})
+    tm.RevObjects++
     return true
 }
 
