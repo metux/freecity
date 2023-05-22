@@ -1,4 +1,5 @@
-- name: powerplant/coal
+- ident: powerplant/coal
+  label: Coal powerplant
   category: powerplant
   size: 4;4
   consumption:
@@ -13,7 +14,8 @@
     power: yes
     water: yes
 
-- name: powerplant/nuclear
+- ident: powerplant/nuclear
+  label: Nulear powerplant
   category: powerplant
   size: 5;3
   consumption:
@@ -28,7 +30,8 @@
     power: yes
     water: yes
 
-- name: powerplant/water
+- ident: powerplant/water
+  label: Water powerplant
   category: powerplant
   size: 1;1
   consumption:
@@ -45,7 +48,8 @@
     water: yes
     cars: no
 
-- name: housing/small
+- ident: housing/small
+  label: Small housing
   category: residential
   size: 1;1
   consumption:
@@ -55,7 +59,8 @@
     power: yes
     water: yes
 
-- name: seaport
+- ident: seaport
+  label: Seaport
   category: port
   size: 4;4
   require: flat_land_and_water
@@ -63,16 +68,8 @@
     power: yes
     water: yes
 
-- name: rail
-  category: rail
-  size: 1;1
-  require: any_land
-  can_bridge: rail
-
-- name: road
-  require: any_land
-
-- name: residential/skyscraper
+- ident: residential/skyscraper
+  label: Skyscraper
   category: residential
   size: 4;4
   require: flat_land

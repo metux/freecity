@@ -80,7 +80,7 @@ func NewBuilding(t * rules.BuildingType, pos point, tm * TerrainMap) (*Building)
     b := Building{
         BuildingType:     t,
         Position:         pos,
-        TypeName:         t.Name,
+        TypeName:         t.Ident,
         Consumption:      t.Consumption,
         Terrain:          tm,
     }

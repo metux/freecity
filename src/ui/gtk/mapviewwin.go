@@ -51,8 +51,6 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
 func (mv * MapViewWindow) clickAt(x, y float64) {
     p := mv.Renderer.PointerPos(fpoint{x, y})
     mv.Tool.WorkAt(mv.Game, p)
-//    log.Println("placing rubble at", p)
-//    mv.Game.Terrain.PlaceRubble(p)
     mv.DrawingArea.QueueDraw()
 }
 

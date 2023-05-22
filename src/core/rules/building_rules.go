@@ -15,8 +15,8 @@ func (this * BuildingRules) Rehash() {
     newmap := make(map[string]*BuildingType)
     for i := range this.BuildingTypes {
         elem := &this.BuildingTypes[i]
-        newmap[elem.Name] = elem
-        log.Println("got building type ", elem.Name)
+        newmap[elem.Ident] = elem
+        log.Println("got building type ", elem.Ident)
 
         // fix missing values
         if (elem.Size.X == 0) {

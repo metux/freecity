@@ -15,7 +15,7 @@ func (tm * TerrainMap) mayPlaceBuildingType(bt * rules.BuildingType, pos point) 
     for _,tr := range tiles {
         tm.autoBulldoze(base.ActionErrectBuilding, tr.Position)
         if tr.Tile.Building != nil {
-            tm.emit(base.ActionErrectBuilding, NotifyCantPlaceHere{"building "+bt.Name, tr.Position})
+            tm.emit(base.ActionErrectBuilding, NotifyCantPlaceHere{"building "+bt.Ident, tr.Position})
             return false
         }
     }
