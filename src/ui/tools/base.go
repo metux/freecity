@@ -10,5 +10,6 @@ type Game = game.Game
 
 type Tool interface {
     GetName() string
+    GetMenuId() string
     WorkAt(g * Game, p point)
 }

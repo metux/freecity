@@ -13,3 +13,7 @@ func (t * Rubble) GetName() string {
 func (t * Rubble) WorkAt(game * Game, p point) {
     game.Terrain.PlaceRubble(p)
 }
+
+func (t * Rubble) GetMenuId() string {
+    return "rubble"
+}

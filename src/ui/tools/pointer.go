@@ -14,3 +14,7 @@ func (t * Pointer) GetName() string {
 func (t * Pointer) WorkAt(game * Game, p point) {
     log.Println("FIXME: pointer click not implemented yet")
 }
+
+func (t * Pointer) GetMenuId() string {
+    return "pointer"
+}

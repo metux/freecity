@@ -19,3 +19,7 @@ func (t * Building) GetName() string {
 func (t * Building) WorkAt(game * Game, p point) {
     game.Terrain.ErrectBuilding(t.BuildingType.Ident, p)
 }
+
+func (t * Building) GetMenuId() string {
+    return "building:"+t.BuildingType.Ident
+}

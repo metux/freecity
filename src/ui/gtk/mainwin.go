@@ -34,15 +34,19 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
         }
         case simu.NotifySimuNextHour: {
             mw.StatusBar.SetDate(n2.Date)
+            return true
         }
         case simu.NotifySimuNextDay: {
             mw.StatusBar.SetDate(n2.Date)
+            return true
         }
         case simu.NotifySimuNextMonth: {
             mw.StatusBar.SetDate(n2.Date)
+            return true
         }
         case simu.NotifySimuNextYear: {
             mw.StatusBar.SetDate(n2.Date)
+            return true
         }
     }
     mw.StatusBar.SetMessage(n.String())
@@ -75,7 +79,7 @@ func (mw * MainWindow) InitBuildMenu() {
 //        if bt.Placable {
         m.Submenu = append(m.Submenu, common.MenuEntry{
             Label:      bt.Label,
-            Id:         bt.Ident,
+            Id:         "place:"+bt.Ident,
             Cmd:        "tool building "+bt.Ident,
             CmdHandler: m.CmdHandler,
         })
@@ -87,9 +91,12 @@ func (mw * MainWindow) InitBuildMenu() {
 
 func (mw * MainWindow) SetTool(t tools.Tool) {
     if t != nil {
+        if mw.Tool != nil {
+            mw.Config.MainMenu.SetChecked(t.GetMenuId(), false)
+        }
         mw.Tool = t
-        mw.StatusBar.SetMessage("Tool: "+t.GetName())
         mw.StatusBar.SetToolName(t.GetName())
+        mw.Config.MainMenu.SetChecked(t.GetMenuId(), true)
     }
 }
 

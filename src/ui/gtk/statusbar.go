@@ -81,10 +81,11 @@ func (sb * StatusBarWindow) Init(parent * gtk.Box) {
     parent.PackEnd(sb.widgetStatusBar, false, false, 0)
 
     // left side
+    sb.addLabel(false).SetText("  ")
     sb.widgetMessage = sb.addLabel(false)
 
     // right side
-    sb.widgetClock = sb.addLabel(true)
+    sb.addLabel(true).SetText("  ")
     sb.widgetClock = sb.addLabel(true)
     sb.addSep(true)
     sb.widgetTool = sb.addLabel(true)
