@@ -55,16 +55,24 @@ func (sb * StatusBarWindow) SetToolName(n string) {
     sb.Update()
 }
 
-func (sb * StatusBarWindow) addSep() {
+func (sb * StatusBarWindow) pack(w gtk.IWidget, end bool) {
+    if end {
+        sb.widgetStatusBar.PackEnd(w, false, false, padding)
+    } else {
+        sb.widgetStatusBar.PackStart(w, false, false, padding)
+    }
+}
+
+func (sb * StatusBarWindow) addSep(end bool) {
     sep1,_ := gtk.SeparatorNew(gtk.ORIENTATION_VERTICAL)
     sep1.SetMarginStart(margin)
     sep1.SetMarginEnd(margin)
-    sb.widgetStatusBar.PackStart(sep1, false, false, padding)
+    sb.pack(sep1, end)
 }
 
-func (sb * StatusBarWindow) addLabel() * gtk.Label {
+func (sb * StatusBarWindow) addLabel(end bool) * gtk.Label {
     l,_ := gtk.LabelNew("")
-    sb.widgetStatusBar.PackStart(l, false, false, padding)
+    sb.pack(l, end)
     return l
 }
 
@@ -72,14 +80,18 @@ func (sb * StatusBarWindow) Init(parent * gtk.Box) {
     sb.widgetStatusBar,_ = gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 0)
     parent.PackEnd(sb.widgetStatusBar, false, false, 0)
 
-    sb.addSep()
-    sb.widgetMessage = sb.addLabel()
-    sb.addSep()
-    sb.widgetTool = sb.addLabel()
+    // left side
+    sb.widgetMessage = sb.addLabel(false)
+
+    // right side
+    sb.addSep(true)
+
+    sb.widgetTool = sb.addLabel(true)
     sb.widgetTool.SetSizeRequest(labelWidth, labelHeight)
 
-    sb.addSep()
-    sb.widgetClock = sb.addLabel()
+    sb.addSep(true)
+
+    sb.widgetClock = sb.addLabel(true)
     sb.widgetClock.SetSizeRequest(labelWidth, labelHeight)
 
     sb.Update()

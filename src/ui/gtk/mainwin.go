@@ -33,12 +33,16 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
             return true
         }
         case simu.NotifySimuNextHour: {
+            mw.StatusBar.SetDate(n2.Date)
         }
         case simu.NotifySimuNextDay: {
+            mw.StatusBar.SetDate(n2.Date)
         }
         case simu.NotifySimuNextMonth: {
+            mw.StatusBar.SetDate(n2.Date)
         }
         case simu.NotifySimuNextYear: {
+            mw.StatusBar.SetDate(n2.Date)
         }
     }
     mw.StatusBar.SetMessage(n.String())
@@ -109,6 +113,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
 
     // create the status bar (fixme: separate object ?)
     mw.StatusBar.Init(mw.Box)
+    mw.StatusBar.SetDate(g.Terrain.Date)
 
     // init menu
     mw.Config.MainMenu.SetHandler(mw)

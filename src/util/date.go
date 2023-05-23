@@ -8,6 +8,7 @@ import (
 type Month = time.Month
 
 const DateTime = "2006-01-02 15:04:05"
+const DisplayTime = "2006-01-02 15:04"
 
 // FIXME: very naive implementation, should use time package internally
 type Date struct {
@@ -59,5 +60,5 @@ func (d Date) Date() (year int, month Month, day int) {
 }
 
 func (d Date) String() string {
-    return d.ts.Format(DateTime)
+    return d.ts.Format(DisplayTime)
 }
