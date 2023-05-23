@@ -1,20 +1,20 @@
 package games
 
 import (
-    "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/geo"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/core/base"
     "math/rand"
 )
 
-type point = util.Point
-type rect = util.Rect
+type point = geo.Point
+type rect = geo.Rect
 
 func placeRubble(g * game.Game) {
     // generate some random rubble
     num_rubble := rand.Intn(10) + 10
     for n := 0; n < num_rubble; n++ {
-        g.Terrain.PlaceRubble(util.RandPoint(g.Terrain.Size))
+        g.Terrain.PlaceRubble(geo.RandPoint(g.Terrain.Size))
     }
     g.Terrain.PlaceRubble(point{20,20})
 }

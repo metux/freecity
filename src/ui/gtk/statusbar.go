@@ -84,15 +84,11 @@ func (sb * StatusBarWindow) Init(parent * gtk.Box) {
     sb.widgetMessage = sb.addLabel(false)
 
     // right side
-    sb.addSep(true)
-
-    sb.widgetTool = sb.addLabel(true)
-    sb.widgetTool.SetSizeRequest(labelWidth, labelHeight)
-
-    sb.addSep(true)
-
     sb.widgetClock = sb.addLabel(true)
-    sb.widgetClock.SetSizeRequest(labelWidth, labelHeight)
+    sb.widgetClock = sb.addLabel(true)
+    sb.addSep(true)
+    sb.widgetTool = sb.addLabel(true)
+    sb.addSep(true)
 
     sb.Update()
 }

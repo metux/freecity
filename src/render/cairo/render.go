@@ -4,7 +4,7 @@ import (
     "time"
     "fmt"
     "log"
-    "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/geo"
     "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/core/game"
@@ -14,9 +14,9 @@ import (
     "sync"
 )
 
-type rect   = util.Rect
-type fpoint = util.FPoint
-type point  = util.Point
+type rect   = geo.Rect
+type fpoint = geo.FPoint
+type point  = geo.Point
 
 type Renderer struct {
     Terrain       * items.TerrainMap
@@ -182,8 +182,8 @@ func (r* Renderer) UpdateCursor(pos fpoint) (int, int, int, int) {
         new_pos = old_pos
     }
 
-    p1 := fpoint{util.Fmin(old_pos.X, new_pos.X), util.Fmin(old_pos.Y, new_pos.Y)}
-    p2 := fpoint{util.Fmax(old_pos.X, new_pos.X) + r.tileSize.X, util.Fmax(old_pos.Y, new_pos.Y) + r.tileSize.Y}
+    p1 := fpoint{geo.Fmin(old_pos.X, new_pos.X), geo.Fmin(old_pos.Y, new_pos.Y)}
+    p2 := fpoint{geo.Fmax(old_pos.X, new_pos.X) + r.tileSize.X, geo.Fmax(old_pos.Y, new_pos.Y) + r.tileSize.Y}
 
     pmin := r.Viewport.TranslatePhys(p1).ToPoint()
     pmax := r.Viewport.TranslatePhys(p2).ToPoint()

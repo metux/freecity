@@ -1,11 +1,11 @@
 package tools
 
 import (
-    "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/geo"
     "github.com/metux/freecity/core/game"
 )
 
-type point = util.Point
+type point = geo.Point
 type Game = game.Game
 
 type Tool interface {

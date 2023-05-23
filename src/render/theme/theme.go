@@ -5,6 +5,7 @@ import (
     "image"
     "sync"
     "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/geo"
     "github.com/metux/freecity/core/base"
 )
 
@@ -29,7 +30,7 @@ const (
 
 type ThemeSpec struct {
     ThemeDir            string                    `yaml:"-"`
-    TileSize            util.Point                `yaml:"tilesize"`
+    TileSize            geo.Point                 `yaml:"tilesize"`
     Projection          ProjType                  `yaml:"projection"`
     ImageCache          map[string] * image.RGBA  `yaml:"-"`
     ImageCacheLock      sync.RWMutex              `yaml:"-"`

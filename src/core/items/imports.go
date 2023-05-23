@@ -2,11 +2,12 @@ package items
 
 import (
     "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/geo"
     "github.com/metux/freecity/core/base"
 )
 
-type point         = util.Point
-type rect          = util.Rect
+type point         = geo.Point
+type rect          = geo.Rect
 type Money         = base.Money
 type LineDirection = base.LineDirection
 type ZoneTag       = base.ZoneTag
