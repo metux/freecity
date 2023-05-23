@@ -3,6 +3,7 @@ package gtk
 import (
     "github.com/gotk3/gotk3/glib"
     "github.com/gotk3/gotk3/gtk"
+    "github.com/metux/freecity/util"
 )
 
 const (
@@ -14,28 +15,44 @@ const (
 
 type StatusBarWindow struct {
     widgetStatusBar * gtk.Statusbar
-    widgetToolName  * gtk.Label
+    widgetTool      * gtk.Label
+    widgetClock     * gtk.Label
+    widgetMessage   * gtk.Label
 
-    message string
-    toolName string
+    message           string
+    tool              string
+    date              util.Date
+}
+
+// FIXME: create our own widget
+
+func (sb * StatusBarWindow) Update() {
+    glib.TimeoutAdd(100, func() {
+        if sb.widgetMessage != nil {
+            sb.widgetMessage.SetText(sb.message)
+        }
+        if sb.widgetTool != nil {
+            sb.widgetTool.SetText(sb.tool)
+        }
+        if sb.widgetClock != nil {
+            sb.widgetClock.SetText(sb.date.String())
+        }
+    })
+}
+
+func (sb * StatusBarWindow) SetDate(d util.Date) {
+    sb.date = d
+    sb.Update()
 }
 
 func (sb * StatusBarWindow) SetMessage(s string) {
     sb.message = s
-    if (sb.widgetStatusBar != nil) {
-        glib.TimeoutAdd(100, func() {
-            sb.widgetStatusBar.Push(3, s)
-        })
-    }
+    sb.Update()
 }
 
 func (sb * StatusBarWindow) SetToolName(n string) {
-    sb.toolName = n
-    if sb.widgetToolName != nil {
-        glib.TimeoutAdd(100, func() {
-            sb.widgetToolName.SetText(n)
-        })
-    }
+    sb.tool = n
+    sb.Update()
 }
 
 func (sb * StatusBarWindow) Init(parent * gtk.Box) {
@@ -47,10 +64,12 @@ func (sb * StatusBarWindow) Init(parent * gtk.Box) {
     sep1.SetMarginEnd(margin)
     sb.widgetStatusBar.PackStart(sep1, false, false, padding)
 
-    sb.widgetToolName,_ = gtk.LabelNew("")
-    sb.widgetToolName.SetSizeRequest(labelWidth, labelHeight)
-    sb.widgetStatusBar.PackStart(sb.widgetToolName, false, false, padding)
+    sb.widgetMessage,_ = gtk.LabelNew("")
+    sb.widgetStatusBar.PackStart(sb.widgetMessage, false, false, padding)
 
-    sb.SetMessage(sb.message)
-    sb.SetToolName(sb.toolName)
+    sb.widgetTool,_ = gtk.LabelNew("")
+    sb.widgetTool.SetSizeRequest(labelWidth, labelHeight)
+    sb.widgetStatusBar.PackStart(sb.widgetTool, false, false, padding)
+
+    sb.Update()
 }
