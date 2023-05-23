@@ -14,7 +14,7 @@ const (
 )
 
 type StatusBarWindow struct {
-    widgetStatusBar * gtk.Statusbar
+    widgetStatusBar * gtk.Box
     widgetTool      * gtk.Label
     widgetClock     * gtk.Label
     widgetMessage   * gtk.Label
@@ -55,21 +55,32 @@ func (sb * StatusBarWindow) SetToolName(n string) {
     sb.Update()
 }
 
-func (sb * StatusBarWindow) Init(parent * gtk.Box) {
-    sb.widgetStatusBar,_ = gtk.StatusbarNew()
-    parent.PackEnd(sb.widgetStatusBar, false, false, 0)
-
+func (sb * StatusBarWindow) addSep() {
     sep1,_ := gtk.SeparatorNew(gtk.ORIENTATION_VERTICAL)
     sep1.SetMarginStart(margin)
     sep1.SetMarginEnd(margin)
     sb.widgetStatusBar.PackStart(sep1, false, false, padding)
+}
 
-    sb.widgetMessage,_ = gtk.LabelNew("")
-    sb.widgetStatusBar.PackStart(sb.widgetMessage, false, false, padding)
+func (sb * StatusBarWindow) addLabel() * gtk.Label {
+    l,_ := gtk.LabelNew("")
+    sb.widgetStatusBar.PackStart(l, false, false, padding)
+    return l
+}
 
-    sb.widgetTool,_ = gtk.LabelNew("")
+func (sb * StatusBarWindow) Init(parent * gtk.Box) {
+    sb.widgetStatusBar,_ = gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 0)
+    parent.PackEnd(sb.widgetStatusBar, false, false, 0)
+
+    sb.addSep()
+    sb.widgetMessage = sb.addLabel()
+    sb.addSep()
+    sb.widgetTool = sb.addLabel()
     sb.widgetTool.SetSizeRequest(labelWidth, labelHeight)
-    sb.widgetStatusBar.PackStart(sb.widgetTool, false, false, padding)
+
+    sb.addSep()
+    sb.widgetClock = sb.addLabel()
+    sb.widgetClock.SetSizeRequest(labelWidth, labelHeight)
 
     sb.Update()
 }
