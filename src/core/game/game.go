@@ -41,30 +41,34 @@ func (g * Game) NotifyEmit(a action, msg items.NotifyMsg) bool {
 }
 
 func (g * Game) SetNotify(nh items.NotifyHandler) items.NotifyHandler {
-    log.Println("setting new notify handler")
     old := g.Notify
     g.Notify = nh
-    g.Terrain.Notify = nh
-    g.Simu.SetNotify(nh)
     return old
 }
 
+// FIXME: move this to simu ?
+// FIXME: send game started signal ?
 func (g * Game) Start() {
-    g.Ticker = time.NewTicker(time.Duration(g.Config.TickDelay) * time.Millisecond)
-    go func() {
-        for {
-            select {
-                case <-g.Ticker.C:
-                    g.Simu.Tick()
+    if g.Ticker == nil {
+        g.Ticker = time.NewTicker(time.Duration(g.Config.TickDelay) * time.Millisecond)
+        go func() {
+            for {
+                select {
+                    case <-g.Ticker.C:
+                        if g.Speed > 0 {
+                            g.Simu.Tick()
+                        }
+                }
             }
-        }
-    }()
+        }()
+    }
 }
 
 func (g * Game) SetSpeed(x int) {
     // FIXME: need to tune timer
     g.Speed = x
     g.Notify.NotifyEmit(base.ActionAny, NotifyGameSpeed{x})
+    g.Start()
 }
 
 func (g * Game) HandleCmd(cmd [] string, id string) bool {

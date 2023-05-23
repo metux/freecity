@@ -1,6 +1,7 @@
 package gtk
 
 import (
+    "github.com/gotk3/gotk3/glib"
     "github.com/gotk3/gotk3/gtk"
 )
 
@@ -22,14 +23,18 @@ type StatusBarWindow struct {
 func (sb * StatusBarWindow) SetMessage(s string) {
     sb.message = s
     if (sb.widgetStatusBar != nil) {
-        sb.widgetStatusBar.Push(3, s)
+        glib.TimeoutAdd(100, func() {
+            sb.widgetStatusBar.Push(3, s)
+        })
     }
 }
 
 func (sb * StatusBarWindow) SetToolName(n string) {
     sb.toolName = n
     if sb.widgetToolName != nil {
-        sb.widgetToolName.SetText(n)
+        glib.TimeoutAdd(100, func() {
+            sb.widgetToolName.SetText(n)
+        })
     }
 }
 

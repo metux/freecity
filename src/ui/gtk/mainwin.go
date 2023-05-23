@@ -4,6 +4,7 @@ import (
     "github.com/gotk3/gotk3/gtk"
     "github.com/gotk3/gotk3/gdk"
     "github.com/metux/freecity/core/base"
+    "github.com/metux/freecity/core/simu"
     "github.com/metux/freecity/util"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/core/items"
@@ -30,6 +31,14 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
         case game.NotifyGameSpeed: {
             mw.Config.MainMenu.SetGameSpeed(n2.Speed)
             return true
+        }
+        case simu.NotifySimuNextHour: {
+        }
+        case simu.NotifySimuNextDay: {
+        }
+        case simu.NotifySimuNextMonth: {
+        }
+        case simu.NotifySimuNextYear: {
         }
     }
     mw.StatusBar.SetMessage(n.String())
