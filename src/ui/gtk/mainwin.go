@@ -79,8 +79,9 @@ func (mw * MainWindow) InitBuildMenu() {
 //        if bt.Placable {
         m.Submenu = append(m.Submenu, common.MenuEntry{
             Label:      bt.Label,
-            Id:         "place:"+bt.Ident,
+            Id:         "building:"+bt.Ident,
             Cmd:        "tool building "+bt.Ident,
+            Type:       common.TypeCheck,
             CmdHandler: m.CmdHandler,
         })
 //        }
@@ -90,14 +91,16 @@ func (mw * MainWindow) InitBuildMenu() {
 }
 
 func (mw * MainWindow) SetTool(t tools.Tool) {
-    if t != nil {
-        if mw.Tool != nil {
-            mw.Config.MainMenu.SetChecked(t.GetMenuId(), false)
-        }
-        mw.Tool = t
-        mw.StatusBar.SetToolName(t.GetName())
-        mw.Config.MainMenu.SetChecked(t.GetMenuId(), true)
+    if t == nil || mw.Tool == t {
+        return
     }
+
+    if mw.Tool != nil {
+        mw.Config.MainMenu.SetChecked(mw.Tool.GetMenuId(), false)
+    }
+
+    mw.Tool = t
+    mw.StatusBar.SetToolName(t.GetName())
 }
 
 func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string) {
