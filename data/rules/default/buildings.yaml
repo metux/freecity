@@ -1,5 +1,6 @@
 - ident: powerplant/coal
   label: Coal powerplant
+  placable: yes
   category: powerplant
   size: 4;4
   consumption:
@@ -16,6 +17,7 @@
 
 - ident: powerplant/nuclear
   label: Nulear powerplant
+  placable: yes
   category: powerplant
   size: 5;3
   consumption:
@@ -33,6 +35,7 @@
 - ident: powerplant/water
   label: Water powerplant
   category: powerplant
+  placable: yes
   size: 1;1
   consumption:
     power: -1000
@@ -41,7 +44,6 @@
     build: 400
     maint: 0
   lifetime: 50
-  placable: yes
   require: waterfall
   routes:
     power: yes
@@ -62,6 +64,7 @@
 - ident: seaport
   label: Seaport
   category: port
+  placable: yes
   size: 4;4
   require: flat_land_and_water
   routes:

@@ -1,5 +1,9 @@
 package tools
 
+import (
+    "github.com/metux/freecity/core/base"
+)
+
 // build roads
 type Road struct {
 }
@@ -9,11 +13,11 @@ func (t * Road) GetName() string {
 }
 
 func (t * Road) WorkAt(game * Game, p point) {
-//    game.Terrain.PlaceRubble(p)
+    game.Terrain.ErrectLine(p, base.LineTypeRoad)
 }
 
 func (t * Road) GetMenuId() string {
-    return "road"
+    return "infra.road"
 }
 
 // build rails
@@ -25,11 +29,11 @@ func (t * Rail) GetName() string {
 }
 
 func (t * Rail) WorkAt(game * Game, p point) {
-//    game.Terrain.PlaceRubble(p)
+    game.Terrain.ErrectLine(p, base.LineTypeRail)
 }
 
 func (t * Rail) GetMenuId() string {
-    return "road"
+    return "infra.rail"
 }
 
 // build power lines
@@ -41,11 +45,11 @@ func (t * Power) GetName() string {
 }
 
 func (t * Power) WorkAt(game * Game, p point) {
-//    game.Terrain.PlaceRubble(p)
+    game.Terrain.ErrectLine(p, base.LineTypePower)
 }
 
 func (t * Power) GetMenuId() string {
-    return "powerline"
+    return "infra.powerline"
 }
 
 // build pipes
@@ -57,9 +61,9 @@ func (t * Pipe) GetName() string {
 }
 
 func (t * Pipe) WorkAt(game * Game, p point) {
-//    game.Terrain.PlaceRubble(p)
+    game.Terrain.ErrectLine(p, base.LineTypePipe)
 }
 
 func (t * Pipe) GetMenuId() string {
-    return "pipe"
+    return "infra.pipe"
 }

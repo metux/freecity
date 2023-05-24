@@ -26,15 +26,15 @@ func (tm * TerrainMap) ErrectRail(p point) (bool) {
         return false
     }
 
-    if tile.Building != nil {
-        tm.emit(ActionBuildRail, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
-        return false
-    }
-
     // FIXME: check terrain
     other := base.LineDirPick(tile.Power, tile.Rail)
     if other.None() {
         tm.emit(ActionBuildRail, NotifyAlreadyOccupied{"powerline/road", p})
+        return false
+    }
+
+    if tile.Building != nil {
+        tm.emit(ActionBuildRail, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
         return false
     }
 

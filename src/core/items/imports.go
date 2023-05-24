@@ -10,6 +10,7 @@ type point         = geo.Point
 type rect          = geo.Rect
 type Money         = base.Money
 type LineDirection = base.LineDirection
+type LineType      = base.LineType
 type ZoneTag       = base.ZoneTag
 type Action        = base.Action
 type date          = util.Date

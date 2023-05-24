@@ -45,6 +45,21 @@ mainmenu:
       - label: _Buildings
         id: build
         type: submenu
+      - label: _Infrastructure
+        submenu:
+          - label: Roads
+            cmd: tool road
+            id: infra.road
+          - label: Rails
+            cmd: tool rail
+            id: infra.rail
+          - label: Powerline
+            cmd: tool powerline
+            id: infra.powerline
+          - label: Pipes
+            cmd: tool pipe
+            id: infra.pipe
+
 windowtitle: FreeCity
 keymap:
     KEY_Left:  mapview move left

@@ -140,10 +140,3 @@ func (tm * TerrainMap) CheckTile(p point, f func(tile Tile) bool) bool {
     }
     return false
 }
-
-func (tm * TerrainMap) CheckTileLine(p point, lt base.LineType) bool {
-    if tile := tm.tileAt(p); tile != nil {
-        return tile.HasLine(lt)
-    }
-    return false
-}
