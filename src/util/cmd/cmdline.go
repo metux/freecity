@@ -45,6 +45,10 @@ func (cmd Cmdline) Skip(idx uint) Cmdline {
     return Cmdline(cmd[idx:])
 }
 
+func (cmd Cmdline) Head() (string, Cmdline) {
+    return cmd.Str(0), cmd.Skip(1)
+}
+
 func Split(s string) Cmdline {
     return Cmdline(strings.Fields(strings.Split(s, "#")[0]))
 }

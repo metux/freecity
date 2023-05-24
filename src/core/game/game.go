@@ -72,7 +72,6 @@ func (g * Game) SetSpeed(x int) {
 }
 
 func (g * Game) HandleCmd(c cmd.Cmdline, id string) bool {
-    log.Println("Game cmd:", c)
     switch c.Str(0) {
         case "": return true
         case "speed": {
