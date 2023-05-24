@@ -1,8 +1,5 @@
 package tools
 
-import (
-)
-
 type Rubble struct {
 }
 
@@ -11,7 +8,7 @@ func (t * Rubble) GetName() string {
 }
 
 func (t * Rubble) WorkAt(game * Game, p point) {
-    game.Terrain.PlaceRubble(p)
+    game.Terrain.PlaceAt(p, []string{"rubble"})
 }
 
 func (t * Rubble) GetMenuId() string {
