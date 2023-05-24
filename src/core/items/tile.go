@@ -42,7 +42,7 @@ func (t * Tile) IsWaterfall() bool {
 }
 
 func (t Tile) HasPowerLine() bool {
-    return (t.Power != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesPower())
+    return t.Power.Present() || t.Building.RoutesLine(base.LineTypePower)
 }
 
 func (t * Tile) PowerConnected() bool {
@@ -54,11 +54,11 @@ func (t * Tile) ClearPowerGrid() {
 }
 
 func (t Tile) HasRoad() bool {
-    return t.Road.Present() || ((t.Building != nil) && t.Building.RoutesLine(base.LineTypeRoad))
+    return t.Road.Present() || t.Building.RoutesLine(base.LineTypeRoad)
 }
 
 func (t Tile) HasRail() bool {
-    return t.Rail.Present() || ((t.Building != nil) && t.Building.RoutesRail())
+    return t.Rail.Present() || t.Building.RoutesLine(base.LineTypeRail)
 }
 
 func (t Tile) HasLine(lt base.LineType) bool {

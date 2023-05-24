@@ -58,10 +58,12 @@ func (b * Building) RoutesRoad() bool {
 }
 
 func (b * Building) RoutesLine(lt base.LineType) bool {
-    switch lt {
-        case base.LineTypePower: return b.BuildingType.Routes.Power
-        case base.LineTypeRail:  return b.BuildingType.Routes.Rail
-        case base.LineTypeRoad:  return b.BuildingType.Routes.Road
+    if (b != nil) {
+        switch lt {
+            case base.LineTypePower: return b.BuildingType.Routes.Power
+            case base.LineTypeRail:  return b.BuildingType.Routes.Rail
+            case base.LineTypeRoad:  return b.BuildingType.Routes.Road
+        }
     }
     return false
 }
