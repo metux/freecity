@@ -17,3 +17,10 @@ type date          = util.Date
 
 const ActionZoning         = base.ActionZoning
 const ActionBuildPowerline = base.ActionBuildPowerline
+
+const (
+    LtPower = base.LineTypePower
+    LtRoad  = base.LineTypeRoad
+    LtRail  = base.LineTypeRail
+    LtPipe  = base.LineTypePipe
+)

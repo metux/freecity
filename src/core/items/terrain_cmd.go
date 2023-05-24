@@ -3,14 +3,13 @@ package items
 import (
     "log"
     "strconv"
-    "github.com/metux/freecity/core/base"
 )
 
 func (tm * TerrainMap) PlaceAt(p point, cmd [] string) bool {
     switch cmd[0] {
-        case "road":      return tm.ErrectLine(p, base.LineTypeRoad)
-        case "rail":      return tm.ErrectLine(p, base.LineTypeRail)
-        case "powerline": return tm.ErrectLine(p, base.LineTypePower)
+        case "road":      return tm.ErrectLine(p, LtRoad)
+        case "rail":      return tm.ErrectLine(p, LtRail)
+        case "powerline": return tm.ErrectLine(p, LtPower)
         case "rubble":    return tm.PlaceRubble(p)
     }
     return false

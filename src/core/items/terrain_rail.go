@@ -5,7 +5,7 @@ import (
 )
 
 func (tm * TerrainMap) isRailAt(p point) bool {
-    return tm.CheckTileLine(p, base.LineTypeRail)
+    return tm.CheckTileLine(p, LtRail)
 }
 
 // FIXME: need to check for conflicts against powerlines and rails
@@ -20,5 +20,5 @@ func (tm * TerrainMap) updateRailAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectRail(p point) (bool) {
-    return tm.addLine(base.ActionBuildRail, base.LineTypeRail, p, tm.updateRailAt)
+    return tm.addLine(base.ActionBuildRail, LtRail, p, tm.updateRailAt)
 }
