@@ -3,7 +3,7 @@ package game
 import (
     "time"
     "log"
-    "strconv"
+    "github.com/metux/freecity/util/cmd"
     "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/core/rules"
@@ -71,17 +71,18 @@ func (g * Game) SetSpeed(x int) {
     g.Start()
 }
 
-func (g * Game) HandleCmd(cmd [] string, id string) bool {
-    switch cmd[0] {
+func (g * Game) HandleCmd(c cmd.Cmdline, id string) bool {
+    log.Println("Game cmd:", c)
+    switch c.Str(0) {
+        case "": return true
         case "speed": {
-            i,_ := strconv.Atoi(cmd[1])
-            g.SetSpeed(i)
+            g.SetSpeed(c.Int(1))
             return true
         }
         case "terrain":
-            return g.Terrain.HandleCmd(cmd[1:], id)
+            return g.Terrain.HandleCmd(c[1:], id)
         default:
-            log.Println("Game: unknown command: ", cmd, id)
+            log.Println("Game: unknown command: ", c, id)
             return false
     }
 }

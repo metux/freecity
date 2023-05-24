@@ -1,7 +1,7 @@
 package common
 
 import (
-    "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/cmd"
 )
 
 type MenuEntryHandle interface {
@@ -25,10 +25,10 @@ type MenuEntry struct {
     Submenu    [] MenuEntry       `yaml:"submenu"`
     Handle        MenuEntryHandle `yaml:"-"`
     Parent      * MenuEntry       `yaml:"-"`
-    CmdHandler    util.CmdHandler `yaml:"-"`
+    CmdHandler    cmd.CmdHandler  `yaml:"-"`
 }
 
-func (me * MenuEntry) SetHandler(h util.CmdHandler) {
+func (me * MenuEntry) SetHandler(h cmd.CmdHandler) {
     me.CmdHandler = h
     for i,_ := range me.Submenu {
         me.Submenu[i].SetHandler(h)
@@ -74,5 +74,5 @@ func (me * MenuEntry) CreateEntries() {
 }
 
 func (me * MenuEntry) Activate() {
-    me.CmdHandler.HandleCmd(util.SplitCmdline(me.Cmd), me.Id)
+    me.CmdHandler.HandleCmd(cmd.Split(me.Cmd), me.Id)
 }

@@ -24,15 +24,17 @@ func (tm * TerrainMap) handlePlace(c cmd.Cmdline) bool {
 
 func (tm * TerrainMap) handleZone(c cmd.Cmdline) bool {
     r := rect { c.Int(0), c.Int(1), c.Int(2), c.Int(3) }
-    zt := base.ZoneTag(c.Str(4)[0])
-    log.Println(r, zt)
+    zt := base.ZoneTag(c.Chr(4))
+    log.Println("Zoning", r, zt)
     return true
 }
 
 func (tm * TerrainMap) HandleCmd(c cmd.Cmdline, id string) bool {
+    log.Println("Terrain cmd", c)
     switch c.Str(0) {
-        case "place": return tm.handlePlace(c[1:])
         case "": return true
+        case "place": return tm.handlePlace(c.Skip(1))
+        case "zone":  return tm.handleZone(c.Skip(1))
     }
     log.Println("terrain: unhandled command:", c)
     return false

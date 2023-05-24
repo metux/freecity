@@ -5,7 +5,7 @@ import (
     "github.com/gotk3/gotk3/gdk"
     "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/simu"
-    "github.com/metux/freecity/util"
+    "github.com/metux/freecity/util/cmd"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/ui/common"
@@ -53,15 +53,16 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
     return false
 }
 
-func (mw * MainWindow) HandleCmd(cmd [] string, id string) bool {
-    switch cmd[0] {
+func (mw * MainWindow) HandleCmd(c cmd.Cmdline, id string) bool {
+    log.Println("mainwindow cmd:", c)
+    switch c.Str(0) {
         case "":        return false
-        case "mapview": return mw.MapView.HandleCmd(cmd[1:], id)
+        case "mapview": return mw.HandleCmd(c.Skip(1), id)
         case "quit":    mw.App.Quit(); break
-        case "tool":    mw.SetTool(tools.ChooseTool(cmd[1:], mw.Game))
-        case "game":    return mw.Game.HandleCmd(cmd[1:], id)
+        case "tool":    mw.SetTool(tools.ChooseTool(c.Skip(1), mw.Game))
+        case "game":    return mw.Game.HandleCmd(c.Skip(1), id)
         default:
-            log.Println("MainWindow: unhandled command: ", cmd, id)
+            log.Println("MainWindow: unhandled command: ", c, id)
             return false
     }
     return true
@@ -115,7 +116,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     // create main window
     mw.window,_= gtk.ApplicationWindowNew(app)
     mw.window.SetTitle(mw.Config.WindowTitle)
-    mw.window.Connect("destroy", func() { mw.HandleCmd([]string{"quit"}, "") })
+    mw.window.Connect("destroy", func() { cmd.RunScriptCmd(mw, "", "quit") } )
     mw.window.SetDefaultSize(mw.Config.WindowSize.X, mw.Config.WindowSize.Y)
 
     mw.Box,_ = gtk.BoxNew(gtk.ORIENTATION_VERTICAL,0)
@@ -146,7 +147,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
         key := translateGdkKey(&gdk.EventKey{ev})
         id,okay := mw.Config.KeyMap[key]
         if okay {
-            mw.HandleCmd(util.SplitCmdline(id), "key")
+            cmd.RunScriptCmd(mw, "key", id)
         } else {
             log.Println("key not bound", key)
         }
