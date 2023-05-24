@@ -10,6 +10,11 @@ import (
 type point = geo.Point
 type rect = geo.Rect
 
+const (
+    power = base.LineTypePower
+    road = base.LineTypeRoad
+)
+
 func placeRubble(g * game.Game) {
     // generate some random rubble
     num_rubble := rand.Intn(10) + 10
@@ -29,15 +34,15 @@ func TestGame1() * game.Game {
     terrain.ErrectBuilding("powerplant/coal",        point{10, 12})
 //    terrain.ErrectBuilding("powerplant/nuclear",     point{10, 20})
 //    terrain.ErrectBuilding("residential/skyscraper", point{20, 20})
-    terrain.ErrectPowerlineV(point{13, 12}, 18)
-    terrain.ErrectPowerlineH(point{12, 22}, 18)
-    terrain.ErrectRoadV(point{17, 20}, 10)
-    terrain.ErrectRoadV(point{9, 19}, 12)
-    terrain.ErrectRoadV(point{40, 19}, 12)
-    terrain.ErrectRoadH(point{10, 24}, 30)
-    terrain.ErrectRoadH(point{10, 19}, 30)
-    terrain.ErrectRoadH(point{10, 30}, 30)
-    terrain.ErrectPowerlineV(point{12, 27}, 18)
+    terrain.ErrectLineV(power, point{13, 12}, 18)
+    terrain.ErrectLineH(power, point{12, 22}, 18)
+    terrain.ErrectLineV(road, point{17, 20}, 10)
+    terrain.ErrectLineV(road, point{9, 19}, 12)
+    terrain.ErrectLineV(road, point{40, 19}, 12)
+    terrain.ErrectLineH(road, point{10, 24}, 30)
+    terrain.ErrectLineH(road, point{10, 19}, 30)
+    terrain.ErrectLineH(road, point{10, 30}, 30)
+    terrain.ErrectLineV(power, point{12, 27}, 18)
     terrain.ZoneRect(base.ZoneIndustrialLight,  rect{0,  5, 30,  1})
     terrain.ZoneRect(base.ZoneIndustrialDense,  rect{3,  2,  2,  2})
     terrain.ZoneRect(base.ZoneResidentialLight, rect{1,  1,  1,  1})
