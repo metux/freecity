@@ -54,9 +54,18 @@ func (t * Tile) ClearPowerGrid() {
 }
 
 func (t Tile) HasRoad() bool {
-    return (t.Road != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesRoad())
+    return t.Road.Present() || ((t.Building != nil) && t.Building.RoutesLine(base.LineTypeRoad))
 }
 
 func (t Tile) HasRail() bool {
-    return (t.Rail != base.LineDirNone) || ((t.Building != nil) && t.Building.RoutesRail())
+    return t.Rail.Present() || ((t.Building != nil) && t.Building.RoutesRail())
+}
+
+func (t Tile) HasLine(lt base.LineType) bool {
+    switch (lt) {
+        case base.LineTypePower: return t.HasPowerLine()
+        case base.LineTypeRail:  return t.HasRail()
+        case base.LineTypeRoad:  return t.HasRoad()
+    }
+    return false
 }

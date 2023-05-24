@@ -48,6 +48,7 @@ func (tm * TerrainMap) ErrectBuilding (typename string, pos point) bool {
     }
 
     if ! tm.trySpendFunds(base.ActionErrectBuilding, bt.Costs.Build, "building type" + typename) {
+        tm.Notify.NotifyEmit(base.ActionErrectBuilding, NotifyCantPlaceHere{"building type" + typename, pos})
         return false
     }
 

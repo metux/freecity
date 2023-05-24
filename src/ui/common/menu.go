@@ -12,8 +12,8 @@ type MenuEntryHandle interface {
     CreateEntryCheck(me * MenuEntry)
 }
 
-const SeparatorId = "----"
-const TypeCheck = "check"
+const SeparatorId   = "----"
+const TypeCheck     = "check"
 const TypeSeparator = "separator"
 const TypeSubmenu   = "submenu"
 

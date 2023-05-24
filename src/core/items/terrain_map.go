@@ -71,13 +71,6 @@ func (tm * TerrainMap) TileRange(rect rect, ignore bool) (TileSet, error) {
     return buffer, nil
 }
 
-func (tm * TerrainMap) checkFunds(value base.Money, cause string) bool {
-    if tm.Funds < value {
-        return false
-    }
-    return true
-}
-
 func (tm * TerrainMap) trySpendFunds(act base.Action, value base.Money, cause string) bool {
     if tm.Funds < value {
         tm.emit(act, NotifyNotEnoughFunds{
