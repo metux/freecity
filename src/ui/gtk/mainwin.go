@@ -110,7 +110,7 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.Console = g.SetNotify(mw)
 
     // set initial tool
-    mw.SetTool(&tools.Rubble{})
+    mw.SetTool(tools.ChooseTool([]string{"rubble"}, g))
 
     // create main window
     mw.window,_= gtk.ApplicationWindowNew(app)
