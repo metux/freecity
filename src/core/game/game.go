@@ -78,6 +78,8 @@ func (g * Game) HandleCmd(cmd [] string, id string) bool {
             g.SetSpeed(i)
             return true
         }
+        case "terrain":
+            return g.Terrain.HandleCmd(cmd[1:], id)
         default:
             log.Println("Game: unknown command: ", cmd, id)
             return false
