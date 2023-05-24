@@ -22,27 +22,25 @@ func (tm * TerrainMap) updateRoadAt(p point) {
 
 func (tm * TerrainMap) ErrectRoad(p point) bool {
     act := Action(base.ActionBuildRoad)
-    tile := tm.tileForLine(p, act, base.LineTypeRoad, "road")
-    if tile == nil {
-        return false
+    if tile := tm.tileForLine(p, act, base.LineTypeRoad, "road"); tile != nil {
+        // FIXME: check terrain
+        other := base.LineDirPick(tile.Power, tile.Rail)
+        if other.None() {
+            tm.emit(act, NotifyAlreadyOccupied{"powerline/rail", p})
+            return false
+        }
+
+        tm.autoBulldoze(act, p)
+
+        if ! tm.trySpendFunds(act, tm.GeneralRules.Costs.Road, "road") {
+            return false
+        }
+
+        tile.SetLine(base.LineTypeRoad, other)
+        p.DoOnPointAndSurrounding(tm.updateRoadAt)
+
+        tm.TouchObjects()
+        return true
     }
-
-    // FIXME: check terrain
-    other := base.LineDirPick(tile.Power, tile.Rail)
-    if other.None() {
-        tm.emit(act, NotifyAlreadyOccupied{"powerline/rail", p})
-        return false
-    }
-
-    tm.autoBulldoze(act, p)
-
-    if ! tm.trySpendFunds(act, tm.GeneralRules.Costs.Road, "road") {
-        return false
-    }
-
-    tile.SetLine(base.LineTypeRoad, other)
-    p.DoOnPointAndSurrounding(tm.updateRoadAt)
-
-    tm.TouchObjects()
-    return true
+    return false
 }

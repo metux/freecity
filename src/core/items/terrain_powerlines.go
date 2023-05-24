@@ -37,30 +37,28 @@ func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType
 }
 
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
-    tile := tm.tileForLine(p, ActionBuildPowerline, base.LineTypePower, "powerline")
-    if tile == nil {
-        return false
+    if tile := tm.tileForLine(p, ActionBuildPowerline, base.LineTypePower, "powerline"); tile != nil {
+        // FIXME: check terrain
+        other := base.LineDirPick(tile.Road, tile.Rail)
+        if other.None() {
+            tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"road/rail", p})
+            return false
+        }
+
+        tm.autoBulldoze(ActionBuildPowerline, p)
+
+        if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.Costs.Powerline, "powerline") {
+            return false
+        }
+
+        tile.SetLine(base.LineTypePower, other)
+        p.DoOnPointAndSurrounding(tm.updatePowerlineAt)
+
+        tm.CalcPowerGrid()
+        tm.TouchObjects()
+        return true
     }
-
-    // FIXME: check terrain
-    other := base.LineDirPick(tile.Road, tile.Rail)
-    if other.None() {
-        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"road/rail", p})
-        return false
-    }
-
-    tm.autoBulldoze(ActionBuildPowerline, p)
-
-    if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.Costs.Powerline, "powerline") {
-        return false
-    }
-
-    tile.SetLine(base.LineTypePower, other)
-    p.DoOnPointAndSurrounding(tm.updatePowerlineAt)
-
-    tm.CalcPowerGrid()
-    tm.TouchObjects()
-    return true
+    return false
 }
 
 func (tm * TerrainMap) CheckPower(act Action) {
