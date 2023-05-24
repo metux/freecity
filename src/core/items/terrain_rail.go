@@ -21,8 +21,7 @@ func (tm * TerrainMap) updateRailAt(p point) {
 
 func (tm * TerrainMap) ErrectRail(p point) (bool) {
     if tile := tm.tileForLine(p, ActionBuildRail, base.LineTypeRail, "rail"); tile != nil {
-        // FIXME: check terrain
-        other := base.LineDirPick(tile.Power, tile.Rail)
+        other := tile.PickLine(base.LineTypeRail)
         if other.None() {
             tm.emit(ActionBuildRail, NotifyAlreadyOccupied{"powerline/road", p})
             return false
@@ -30,7 +29,7 @@ func (tm * TerrainMap) ErrectRail(p point) (bool) {
 
         tm.autoBulldoze(ActionBuildRail, p)
 
-        if ! tm.trySpendFunds(ActionBuildRail, tm.GeneralRules.Costs.Rail, "rail") {
+        if ! tm.trySpendFunds(ActionBuildRail, tm.GeneralRules.LinePrice(base.LineTypeRail), "rail") {
             return false
         }
 

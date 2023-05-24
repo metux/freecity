@@ -39,15 +39,15 @@ func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
     if tile := tm.tileForLine(p, ActionBuildPowerline, base.LineTypePower, "powerline"); tile != nil {
         // FIXME: check terrain
-        other := base.LineDirPick(tile.Road, tile.Rail)
+        other := tile.PickLine(base.LineTypePower)
         if other.None() {
-            tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"road/rail", p})
+            tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"lines", p})
             return false
         }
 
         tm.autoBulldoze(ActionBuildPowerline, p)
 
-        if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.Costs.Powerline, "powerline") {
+        if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.LinePrice(base.LineTypePower), "powerline") {
             return false
         }
 

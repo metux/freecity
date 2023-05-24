@@ -23,16 +23,15 @@ func (tm * TerrainMap) updateRoadAt(p point) {
 func (tm * TerrainMap) ErrectRoad(p point) bool {
     act := Action(base.ActionBuildRoad)
     if tile := tm.tileForLine(p, act, base.LineTypeRoad, "road"); tile != nil {
-        // FIXME: check terrain
-        other := base.LineDirPick(tile.Power, tile.Rail)
+        other := tile.PickLine(base.LineTypeRoad)
         if other.None() {
-            tm.emit(act, NotifyAlreadyOccupied{"powerline/rail", p})
+            tm.emit(act, NotifyAlreadyOccupied{"lines", p})
             return false
         }
 
         tm.autoBulldoze(act, p)
 
-        if ! tm.trySpendFunds(act, tm.GeneralRules.Costs.Road, "road") {
+        if ! tm.trySpendFunds(act, tm.GeneralRules.LinePrice(base.LineTypeRoad), "road") {
             return false
         }
 

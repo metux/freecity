@@ -72,7 +72,7 @@ func (t * Tile) SetLine(lt base.LineType, line base.LineDirection) {
     }
 }
 
-func (t * Tile) PickLine(lt base.LineType, other1, other2 base.LineDirection) base.LineDirection {
+func (t * Tile) PickLine(lt base.LineType) base.LineDirection {
     switch lt {
         case base.LineTypePower: return base.LineDirPick(t.Road,  t.Rail)
         case base.LineTypeRoad:  return base.LineDirPick(t.Rail,  t.Road)
