@@ -26,6 +26,7 @@ func (tm * TerrainMap) handleZone(c cmd.Cmdline) bool {
     r := rect { c.Int(0), c.Int(1), c.Int(2), c.Int(3) }
     zt := base.ZoneTag(c.Chr(4))
     log.Println("Zoning", r, zt)
+    tm.ZoneRect(zt, r)
     return true
 }
 

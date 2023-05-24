@@ -1,7 +1,6 @@
 package cmd
 
 import (
-    "log"
     "strings"
 )
 
@@ -11,7 +10,6 @@ func RunScriptStr(h CmdHandler, abort bool, id string, script string) bool {
         if l != "" {
             if ! RunScriptCmd(h, id, l) {
                 if abort {
-                    log.Println("last cmd failed, aborting script")
                     return false
                 } else {
                     ret = false
