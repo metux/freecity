@@ -4,8 +4,9 @@ import (
     "time"
     "fmt"
     "log"
+    "github.com/metux/freecity/util"
     "github.com/metux/freecity/util/geo"
-    "github.com/metux/freecity/core/base"
+//    "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/render/theme"
@@ -260,7 +261,7 @@ func (r * Renderer) createBasemap() {
     }
 
     if render.DebugMode {
-        defer base.TimeTrack(time.Now(), "cairo-render createBasemap()")
+        defer util.TimeTrack(time.Now(), "cairo-render createBasemap()")
     }
 
     r.basemap = cairo.CreateImageSurface(basemapFormat, int(r.imgSize.X), int(r.imgSize.Y))
@@ -296,7 +297,7 @@ func (r * Renderer) createFullmap() {
     }
 
     if render.DebugMode {
-        defer base.TimeTrack(time.Now(), "cairo-render createFullmap()")
+        defer util.TimeTrack(time.Now(), "cairo-render createFullmap()")
     }
 
     r.createBasemap()
@@ -316,7 +317,7 @@ func (r * Renderer) Render(cr * cairo.Context) {
     cr.Scale(r.Viewport.Scale, r.Viewport.Scale)
 
     if render.DebugMode {
-        defer base.TimeTrack(time.Now(), fmt.Sprintf("cairo-render (scale %f)", r.Viewport.Scale))
+        defer util.TimeTrack(time.Now(), fmt.Sprintf("cairo-render (scale %f)", r.Viewport.Scale))
     }
 
     // take the basemap as background

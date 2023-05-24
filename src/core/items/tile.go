@@ -54,6 +54,7 @@ func (t Tile) hasLineSelf(lt base.LineType) bool {
         case base.LineTypePower: return t.Power.Present()
         case base.LineTypeRail:  return t.Rail.Present()
         case base.LineTypeRoad:  return t.Road.Present()
+        case base.LineTypePipe:  return t.Pipe.Present()
     }
     return false
 }
@@ -65,7 +66,19 @@ func (t Tile) HasLine(lt base.LineType) bool {
 func (t * Tile) SetLine(lt base.LineType, line base.LineDirection) {
     switch (lt) {
         case base.LineTypePower: t.Power = line
-        case base.LineTypeRail:  t.Rail = line
-        case base.LineTypeRoad:  t.Road = line
+        case base.LineTypeRail:  t.Rail  = line
+        case base.LineTypeRoad:  t.Road  = line
+        case base.LineTypePipe:  t.Pipe  = line
     }
+}
+
+func (t * Tile) PickLine(lt base.LineType, other1, other2 base.LineDirection) base.LineDirection {
+    switch lt {
+        case base.LineTypePower: return base.LineDirPick(t.Road,  t.Rail)
+        case base.LineTypeRoad:  return base.LineDirPick(t.Rail,  t.Road)
+        case base.LineTypeRail:  return base.LineDirPick(t.Power, t.Road)
+        // currently no conflicts with others
+        case base.LineTypePipe:  return base.LineDirPick(base.LineDirNone, base.LineDirNone)
+    }
+    return base.LineDirNone
 }

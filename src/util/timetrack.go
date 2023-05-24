@@ -1,4 +1,4 @@
-package base
+package util
 
 import "time"
 import "log"
