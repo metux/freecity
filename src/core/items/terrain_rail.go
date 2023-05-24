@@ -20,5 +20,5 @@ func (tm * TerrainMap) updateRailAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectRail(p point) (bool) {
-    return tm.addLine(ActionBuildRail, base.LineTypeRail, p, tm.updateRailAt)
+    return tm.addLine(base.ActionBuildRail, base.LineTypeRail, p, tm.updateRailAt)
 }

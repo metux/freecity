@@ -16,5 +16,4 @@ type Action        = base.Action
 type date          = util.Date
 
 const ActionZoning         = base.ActionZoning
-const ActionBuildRail      = base.ActionBuildRail
 const ActionBuildPowerline = base.ActionBuildPowerline
