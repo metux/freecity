@@ -7,4 +7,5 @@ const (
     LineTypePower = iota
     LineTypeRoad  = iota
     LineTypeRail  = iota
+    LineTypePipe  = iota
 )
