@@ -12,11 +12,11 @@ func (tm * TerrainMap) CheckTileLine(p point, lt LineType) bool {
     return false
 }
 
-func (tm * TerrainMap) ErrectLine(p point, lt LineType) bool {
+func (tm * TerrainMap) ErrectLine(lt LineType, p point) bool {
     switch lt {
-        case LtPower: return tm.ErrectPowerline(p)
-        case LtRail:  return tm.ErrectRail(p)
-        case LtRoad:  return tm.ErrectRoad(p)
+        case LtPower: return tm.errectPowerline(p)
+        case LtRail:  return tm.errectRail(p)
+        case LtRoad:  return tm.errectRoad(p)
     }
     log.Println("ErrectLine: unsupported line type", lt)
     return false
@@ -24,14 +24,14 @@ func (tm * TerrainMap) ErrectLine(p point, lt LineType) bool {
 
 func (t * TerrainMap) ErrectLineH(lt LineType, p point, w int) {
     for i := 0; i<w; i++ {
-        t.ErrectLine(p, lt)
+        t.ErrectLine(lt, p)
         p.X++
     }
 }
 
 func (t * TerrainMap) ErrectLineV(lt LineType, p point, w int) {
     for i := 0; i<w; i++ {
-        t.ErrectLine(p, lt)
+        t.ErrectLine(lt, p)
         p.Y++
     }
 }

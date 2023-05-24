@@ -20,7 +20,7 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
     tile.Power.PickFromSurrounding(p, tm.isPowerAt)
 }
 
-func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
+func (tm * TerrainMap) errectPowerline(p point) (bool) {
     return tm.addLine(ActionBuildPowerline, LtPower, p, tm.updatePowerlineAt)
 }
 

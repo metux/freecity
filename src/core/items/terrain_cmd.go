@@ -7,9 +7,9 @@ import (
 
 func (tm * TerrainMap) PlaceAt(p point, cmd [] string) bool {
     switch cmd[0] {
-        case "road":      return tm.ErrectLine(p, LtRoad)
-        case "rail":      return tm.ErrectLine(p, LtRail)
-        case "powerline": return tm.ErrectLine(p, LtPower)
+        case "road":      return tm.ErrectLine(LtRoad,  p)
+        case "rail":      return tm.ErrectLine(LtRail,  p)
+        case "powerline": return tm.ErrectLine(LtPower, p)
         case "rubble":    return tm.PlaceRubble(p)
     }
     return false

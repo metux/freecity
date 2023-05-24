@@ -20,6 +20,6 @@ func (tm * TerrainMap) updateRoadAt(p point) {
     })
 }
 
-func (tm * TerrainMap) ErrectRoad(p point) bool {
+func (tm * TerrainMap) errectRoad(p point) bool {
     return tm.addLine(base.ActionBuildRoad, LtRoad, p, tm.updateRoadAt)
 }
