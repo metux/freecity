@@ -15,6 +15,7 @@ type GeneralRules struct {
     Costs struct {
         Road                 money
         Rail                 money
+        Pipe                 money
         Bulldoze             money
         Powerline            money
         Zones struct {
@@ -42,6 +43,16 @@ func (g * GeneralRules) LoadYaml(ruledir string) error {
     }
 
     return g.Buildings.LoadYaml(ruledir)
+}
+
+func (g * GeneralRules) LinePrice(lt base.LineType) base.Money {
+    switch lt {
+        case base.LineTypeRail:  return g.Costs.Rail
+        case base.LineTypePipe:  return g.Costs.Pipe
+        case base.LineTypeRoad:  return g.Costs.Road
+        case base.LineTypePower: return g.Costs.Powerline
+    }
+    return 0
 }
 
 func (g * GeneralRules) ZonePrice(zt zonetag) money {

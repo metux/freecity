@@ -6,7 +6,6 @@ import (
     "log"
     "github.com/metux/freecity/util"
     "github.com/metux/freecity/util/geo"
-//    "github.com/metux/freecity/core/base"
     "github.com/metux/freecity/core/items"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/render/theme"
