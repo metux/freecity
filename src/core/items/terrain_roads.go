@@ -46,7 +46,7 @@ func (tm * TerrainMap) ErrectRoad(p point) bool {
         return false
     }
 
-    tile.Road = other
+    tile.SetLine(base.LineTypeRoad, other)
     p.DoOnPointAndSurrounding(tm.updateRoadAt)
 
     tm.TouchObjects()

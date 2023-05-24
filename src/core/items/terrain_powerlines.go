@@ -46,7 +46,7 @@ func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
         return false
     }
 
-    tile.Power = other
+    tile.SetLine(base.LineTypePower, other)
     p.DoOnPointAndSurrounding(tm.updatePowerlineAt)
 
     tm.CalcPowerGrid()

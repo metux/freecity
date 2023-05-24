@@ -44,8 +44,7 @@ func (tm * TerrainMap) ErrectRail(p point) (bool) {
         return false
     }
 
-    tile.Rail = other
-
+    tile.SetLine(base.LineTypeRail, other)
     p.DoOnPointAndSurrounding(tm.updateRailAt)
 
     tm.TouchObjects()

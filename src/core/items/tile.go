@@ -61,3 +61,11 @@ func (t Tile) hasLineSelf(lt base.LineType) bool {
 func (t Tile) HasLine(lt base.LineType) bool {
     return t.hasLineSelf(lt) || t.Building.RoutesLine(lt)
 }
+
+func (t * Tile) SetLine(lt base.LineType, line base.LineDirection) {
+    switch (lt) {
+        case base.LineTypePower: t.Power = line
+        case base.LineTypeRail:  t.Rail = line
+        case base.LineTypeRoad:  t.Road = line
+    }
+}
