@@ -20,9 +20,8 @@ func (tm * TerrainMap) updateRailAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectRail(p point) (bool) {
-    tile := tm.tileAt(p)
+    tile := tm.tileForLine(p, ActionBuildRail, base.LineTypeRail, "rail")
     if tile == nil {
-        tm.emit(ActionBuildRail, NotifyNoSuchTile{"rail", p})
         return false
     }
 
@@ -30,11 +29,6 @@ func (tm * TerrainMap) ErrectRail(p point) (bool) {
     other := base.LineDirPick(tile.Power, tile.Rail)
     if other.None() {
         tm.emit(ActionBuildRail, NotifyAlreadyOccupied{"powerline/road", p})
-        return false
-    }
-
-    if tile.Building != nil {
-        tm.emit(ActionBuildRail, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
         return false
     }
 

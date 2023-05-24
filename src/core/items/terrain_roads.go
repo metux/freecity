@@ -22,14 +22,8 @@ func (tm * TerrainMap) updateRoadAt(p point) {
 
 func (tm * TerrainMap) ErrectRoad(p point) bool {
     act := Action(base.ActionBuildRoad)
-    tile := tm.tileAt(p)
+    tile := tm.tileForLine(p, act, base.LineTypeRoad, "road")
     if tile == nil {
-        tm.emit(act, NotifyNoSuchTile{"road", p})
-        return false
-    }
-
-    if tile.Building != nil {
-        tm.emit(act, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
         return false
     }
 

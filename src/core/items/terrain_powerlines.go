@@ -20,16 +20,25 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
     tile.Power.PickFromSurrounding(p, tm.isPowerAt)
 }
 
-func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
+func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType, obj string) * Tile {
     tile := tm.tileAt(p)
 
     if tile == nil {
-        tm.emit(ActionBuildPowerline, NotifyNoSuchTile{"powerline", p})
-        return false
+        tm.emit(action, NotifyNoSuchTile{obj, p})
+        return nil
     }
 
     if tile.Building != nil {
         tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
+        return nil
+    }
+
+    return tile
+}
+
+func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
+    tile := tm.tileForLine(p, ActionBuildPowerline, base.LineTypePower, "powerline")
+    if tile == nil {
         return false
     }
 
