@@ -19,7 +19,6 @@ func (tm * TerrainMap) PlaceAt(p point, cmd [] string) bool {
 func (tm * TerrainMap) handleErrect(cmd[] string, id string) bool {
     x,_ := strconv.Atoi(cmd[0])
     y,_ := strconv.Atoi(cmd[1])
-
     return tm.PlaceAt(point{x,y}, cmd[2:])
 }
 

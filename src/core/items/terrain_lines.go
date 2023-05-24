@@ -21,3 +21,17 @@ func (tm * TerrainMap) ErrectLine(p point, lt LineType) bool {
     log.Println("ErrectLine: unsupported line type", lt)
     return false
 }
+
+func (t * TerrainMap) ErrectLineH(lt base.LineType, p point, w int) {
+    for i := 0; i<w; i++ {
+        t.ErrectLine(p, lt)
+        p.X++
+    }
+}
+
+func (t * TerrainMap) ErrectLineV(lt base.LineType, p point, w int) {
+    for i := 0; i<w; i++ {
+        t.ErrectLine(p, lt)
+        p.Y++
+    }
+}
