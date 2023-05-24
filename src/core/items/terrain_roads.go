@@ -22,8 +22,11 @@ func (tm * TerrainMap) updateRoadAt(p point) {
 
 func (tm * TerrainMap) ErrectRoad(p point) bool {
     act := Action(base.ActionBuildRoad)
-    if tile := tm.tileForLine(p, act, base.LineTypeRoad, "road"); tile != nil {
-        other := tile.PickLine(base.LineTypeRoad)
+    lt  := base.LineType(base.LineTypeRoad)
+    cb  := tm.updateRoadAt
+
+    if tile := tm.tileForLine(p, act, lt); tile != nil {
+        other := tile.PickLine(lt)
         if other.None() {
             tm.emit(act, NotifyAlreadyOccupied{"lines", p})
             return false
@@ -31,12 +34,12 @@ func (tm * TerrainMap) ErrectRoad(p point) bool {
 
         tm.autoBulldoze(act, p)
 
-        if ! tm.trySpendFunds(act, tm.GeneralRules.LinePrice(base.LineTypeRoad), "road") {
+        if ! tm.trySpendFunds(act, tm.GeneralRules.LinePrice(lt), lt.String()) {
             return false
         }
 
-        tile.SetLine(base.LineTypeRoad, other)
-        p.DoOnPointAndSurrounding(tm.updateRoadAt)
+        tile.SetLine(lt, other)
+        p.DoOnPointAndSurrounding(cb)
 
         tm.TouchObjects()
         return true

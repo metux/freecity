@@ -20,11 +20,11 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
     tile.Power.PickFromSurrounding(p, tm.isPowerAt)
 }
 
-func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType, obj string) * Tile {
+func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType) * Tile {
     tile := tm.tileAt(p)
 
     if tile == nil {
-        tm.emit(action, NotifyNoSuchTile{obj, p})
+        tm.emit(action, NotifyNoSuchTile{lt.String(), p})
         return nil
     }
 
@@ -37,7 +37,8 @@ func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType
 }
 
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
-    if tile := tm.tileForLine(p, ActionBuildPowerline, base.LineTypePower, "powerline"); tile != nil {
+    lt := base.LineType(base.LineTypePower)
+    if tile := tm.tileForLine(p, ActionBuildPowerline, lt); tile != nil {
         // FIXME: check terrain
         other := tile.PickLine(base.LineTypePower)
         if other.None() {
@@ -47,7 +48,7 @@ func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
 
         tm.autoBulldoze(ActionBuildPowerline, p)
 
-        if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.LinePrice(base.LineTypePower), "powerline") {
+        if ! tm.trySpendFunds(ActionBuildPowerline, tm.GeneralRules.LinePrice(lt), lt.String()) {
             return false
         }
 
