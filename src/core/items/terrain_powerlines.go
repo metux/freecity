@@ -20,27 +20,14 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
     tile.Power.PickFromSurrounding(p, tm.isPowerAt)
 }
 
-func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType) * Tile {
-    tile := tm.tileAt(p)
-
-    if tile == nil {
-        tm.emit(action, NotifyNoSuchTile{lt.String(), p})
-        return nil
-    }
-
-    if tile.Building != nil {
-        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
-        return nil
-    }
-
-    return tile
-}
-
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
+    act := base.Action(ActionBuildPowerline)
     lt := base.LineType(base.LineTypePower)
-    if tile := tm.tileForLine(p, ActionBuildPowerline, lt); tile != nil {
+    cb := tm.updatePowerlineAt
+
+    if tile := tm.tileForLine(p, act, lt); tile != nil {
         // FIXME: check terrain
-        other := tile.PickLine(base.LineTypePower)
+        other := tile.PickLine(lt)
         if other.None() {
             tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"lines", p})
             return false
@@ -52,8 +39,8 @@ func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
             return false
         }
 
-        tile.SetLine(base.LineTypePower, other)
-        p.DoOnPointAndSurrounding(tm.updatePowerlineAt)
+        tile.SetLine(lt, other)
+        p.DoOnPointAndSurrounding(cb)
 
         tm.CalcPowerGrid()
         tm.TouchObjects()

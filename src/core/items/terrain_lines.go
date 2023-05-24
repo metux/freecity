@@ -35,3 +35,19 @@ func (t * TerrainMap) ErrectLineV(lt base.LineType, p point, w int) {
         p.Y++
     }
 }
+
+func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType) * Tile {
+    tile := tm.tileAt(p)
+
+    if tile == nil {
+        tm.emit(action, NotifyNoSuchTile{lt.String(), p})
+        return nil
+    }
+
+    if tile.Building != nil {
+        tm.emit(ActionBuildPowerline, NotifyAlreadyOccupied{"building "+tile.Building.TypeName, p})
+        return nil
+    }
+
+    return tile
+}
