@@ -21,10 +21,10 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
-    act := base.Action(ActionBuildPowerline)
-    lt := base.LineType(base.LineTypePower)
-    cb := tm.updatePowerlineAt
+    return tm.addLine(ActionBuildPowerline, base.LineTypePower, p, tm.updatePowerlineAt)
+}
 
+func (tm * TerrainMap) addLine(act base.Action, lt base.LineType, p point, cb func(p point)) (bool) {
     if tile := tm.tileForLine(p, act, lt); tile != nil {
         // FIXME: check terrain
         other := tile.PickLine(lt)

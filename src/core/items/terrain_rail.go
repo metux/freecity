@@ -20,28 +20,5 @@ func (tm * TerrainMap) updateRailAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectRail(p point) (bool) {
-    act := base.Action(ActionBuildRail)
-    lt  := base.LineType(base.LineTypeRail)
-    cb  := tm.updateRailAt
-
-    if tile := tm.tileForLine(p, act, lt); tile != nil {
-        other := tile.PickLine(lt)
-        if other.None() {
-            tm.emit(act, NotifyAlreadyOccupied{"lines", p})
-            return false
-        }
-
-        tm.autoBulldoze(act, p)
-
-        if ! tm.trySpendFunds(act, tm.GeneralRules.LinePrice(lt), lt.String()) {
-            return false
-        }
-
-        tile.SetLine(lt, other)
-        p.DoOnPointAndSurrounding(cb)
-
-        tm.TouchObjects()
-        return true
-    }
-    return false
+    return tm.addLine(ActionBuildRail, base.LineTypeRail, p, tm.updateRailAt)
 }
