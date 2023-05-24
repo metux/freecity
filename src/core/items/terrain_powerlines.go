@@ -78,17 +78,3 @@ func (tm * TerrainMap) CalcPowerGrid() {
 
     tm.PowerGrids = grids
 }
-
-func (t * TerrainMap) ErrectPowerlineH(p point, w int) {
-    for i := 0; i<w; i++ {
-        t.ErrectPowerline(p)
-        p.X++
-    }
-}
-
-func (t * TerrainMap) ErrectPowerlineV(p point, w int) {
-    for i := 0; i<w; i++ {
-        t.ErrectPowerline(p)
-        p.Y++
-    }
-}

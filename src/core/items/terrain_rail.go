@@ -51,17 +51,3 @@ func (tm * TerrainMap) ErrectRail(p point) (bool) {
     tm.TouchObjects()
     return true
 }
-
-func (t * TerrainMap) ErrectRailH(p point, w int) {
-    for i := 0; i<w; i++ {
-        t.ErrectRail(p)
-        p.X++
-    }
-}
-
-func (t * TerrainMap) ErrectRailV(p point, w int) {
-    for i := 0; i<w; i++ {
-        t.ErrectRail(p)
-        p.Y++
-    }
-}

@@ -47,23 +47,8 @@ func (tm * TerrainMap) ErrectRoad(p point) bool {
     }
 
     tile.Road = other
-
     p.DoOnPointAndSurrounding(tm.updateRoadAt)
 
     tm.TouchObjects()
     return true
-}
-
-func (t * TerrainMap) ErrectRoadH(p point, w int) {
-    for i := 0; i<w; i++ {
-        t.ErrectRoad(p)
-        p.X++
-    }
-}
-
-func (t * TerrainMap) ErrectRoadV(p point, w int) {
-    for i := 0; i<w; i++ {
-        t.ErrectRoad(p)
-        p.Y++
-    }
 }
