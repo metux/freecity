@@ -18,11 +18,6 @@ func RunScriptStr(h util.CmdHandler, abort bool, id string, script string) bool 
     return ret
 }
 
-func RunScriptCmd(h util.CmdHandler, id string, cmd string) bool {
-    c1 := strings.Split(cmd, "#")
-    if c1[0] == "" {
-        log.Println("SKIP: ", cmd)
-        return true
-    }
-    return h.HandleCmd(strings.Split(c1[0], " "), id)
+func RunScriptCmd(h util.CmdHandler, id string, c0 string) bool {
+    return h.HandleCmd(Split(c0), id)
 }
