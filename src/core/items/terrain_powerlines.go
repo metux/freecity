@@ -5,7 +5,7 @@ import (
 )
 
 func (tm * TerrainMap) isPowerAt(p point) bool {
-    return tm.CheckTileLine(p, base.LineTypePower)
+    return tm.CheckTileLine(p, LtPower)
 }
 
 func (tm * TerrainMap) updatePowerlineAt(p point) {
@@ -21,10 +21,10 @@ func (tm * TerrainMap) updatePowerlineAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectPowerline(p point) (bool) {
-    return tm.addLine(ActionBuildPowerline, base.LineTypePower, p, tm.updatePowerlineAt)
+    return tm.addLine(ActionBuildPowerline, LtPower, p, tm.updatePowerlineAt)
 }
 
-func (tm * TerrainMap) addLine(act base.Action, lt base.LineType, p point, cb func(p point)) (bool) {
+func (tm * TerrainMap) addLine(act base.Action, lt LineType, p point, cb func(p point)) (bool) {
     if tile := tm.tileForLine(p, act, lt); tile != nil {
         // FIXME: check terrain
         other := tile.PickLine(lt)

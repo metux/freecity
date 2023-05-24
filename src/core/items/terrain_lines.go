@@ -36,7 +36,7 @@ func (t * TerrainMap) ErrectLineV(lt LineType, p point, w int) {
     }
 }
 
-func (tm * TerrainMap) tileForLine(p point, action base.Action, lt base.LineType) * Tile {
+func (tm * TerrainMap) tileForLine(p point, action base.Action, lt LineType) * Tile {
     tile := tm.tileAt(p)
 
     if tile == nil {

@@ -5,7 +5,7 @@ import (
 )
 
 func (tm * TerrainMap) isRoadAt(p point) bool {
-    return tm.CheckTileLine(p, base.LineTypeRoad)
+    return tm.CheckTileLine(p, LtRoad)
 }
 
 // update the directions of neighboring roads
@@ -21,5 +21,5 @@ func (tm * TerrainMap) updateRoadAt(p point) {
 }
 
 func (tm * TerrainMap) ErrectRoad(p point) bool {
-    return tm.addLine(base.ActionBuildRoad, base.LineTypeRoad, p, tm.updateRoadAt)
+    return tm.addLine(base.ActionBuildRoad, LtRoad, p, tm.updateRoadAt)
 }
