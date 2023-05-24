@@ -5,7 +5,7 @@ import (
 )
 
 func (tm * TerrainMap) isPowerAt(p point) bool {
-    return tm.CheckTile(p, Tile.HasPowerLine)
+    return tm.CheckTileLine(p, base.LineTypePower)
 }
 
 func (tm * TerrainMap) updatePowerlineAt(p point) {

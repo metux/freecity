@@ -5,7 +5,7 @@ import (
 )
 
 func (tm * TerrainMap) isRailAt(p point) bool {
-    return tm.CheckTile(p, Tile.HasRail)
+    return tm.CheckTileLine(p, base.LineTypeRail)
 }
 
 // FIXME: need to check for conflicts against powerlines and rails
