@@ -7,14 +7,14 @@ import (
 
 type Cmdline [] string
 
-func (cmd Cmdline) Str (idx uint, df string) string {
+func (cmd Cmdline) StrDef (idx uint, df string) string {
     if int(idx)<len(cmd) {
         return cmd[idx]
     }
     return df
 }
 
-func (cmd Cmdline) Int (idx uint, df int) int {
+func (cmd Cmdline) IntDef (idx uint, df int) int {
     if int(idx)<len(cmd) {
         val,err := strconv.Atoi(cmd[idx])
         if err != nil {
@@ -22,6 +22,14 @@ func (cmd Cmdline) Int (idx uint, df int) int {
         }
     }
     return df
+}
+
+func (cmd Cmdline) Str (idx uint) string {
+    return cmd.StrDef(idx, "")
+}
+
+func (cmd Cmdline) Int (idx uint) int {
+    return cmd.IntDef(idx, 0)
 }
 
 func Split(s string) Cmdline {
