@@ -7,6 +7,7 @@ import (
     "github.com/gotk3/gotk3/cairo"
     "github.com/metux/freecity/core/game"
     "github.com/metux/freecity/render/theme"
+    "github.com/metux/freecity/util/cmd"
     render_cairo "github.com/metux/freecity/render/cairo"
 )
 
@@ -49,43 +50,43 @@ func (mv * MapViewWindow) clickAt(x, y float64) {
     mv.DrawingArea.QueueDraw()
 }
 
-func (mv * MapViewWindow) handleMove(cmd [] string, id string) bool {
-    switch cmd[1] {
+func (mv * MapViewWindow) handleMove(c cmd.Cmdline, id string) bool {
+    switch c.Str(0) {
         case "left":  mv.Renderer.Move(fpoint{ mv.Config.MoveStep, 0}); break
         case "right": mv.Renderer.Move(fpoint{-mv.Config.MoveStep, 0}); break
         case "up":    mv.Renderer.Move(fpoint{0,  mv.Config.MoveStep}); break
         case "down":  mv.Renderer.Move(fpoint{0, -mv.Config.MoveStep}); break
         default:
-            log.Println("MapViewWindow: unhandled move command:", cmd, id)
+            log.Println("MapViewWindow: unhandled move command:", c, id)
             return false
     }
     mv.DrawingArea.QueueDraw()
     return true
 }
 
-func (mv * MapViewWindow) handleZoom(cmd [] string, id string) bool {
-    switch cmd[1] {
+func (mv * MapViewWindow) handleZoom(c cmd.Cmdline, id string) bool {
+    switch c.Str(0) {
         case "up":   mv.Renderer.ZoomStep(mv.Config.ZoomStep);  break
         case "down": mv.Renderer.ZoomStep(-mv.Config.ZoomStep); break
         default:
-            log.Println("MapViewWindow: unhandled zoom command:", cmd, id)
+            log.Println("MapViewWindow: unhandled zoom command:", c, id)
             return false
     }
     mv.DrawingArea.QueueDraw()
     return true
 }
 
-func (mv * MapViewWindow) HandleCmd(cmd [] string, id string) bool {
-    switch cmd[0] {
-        case "move": return mv.handleMove(cmd, id)
-        case "zoom": return mv.handleZoom(cmd, id)
+func (mv * MapViewWindow) HandleCmd(c cmd.Cmdline, id string) bool {
+    switch c.Str(0) {
+        case "move": return mv.handleMove(c.Skip(1), id)
+        case "zoom": return mv.handleZoom(c.Skip(1), id)
         case "repaint": {
             mv.Game.Terrain.TouchTerrain()
             mv.DrawingArea.QueueDraw()
             return true
         }
         default:
-            log.Println("MapViewWindow: unhandled command:", cmd, id)
+            log.Println("MapViewWindow: unhandled command:", c, id)
             return false
     }
     return false
