@@ -52,13 +52,19 @@ func (tm * TerrainMap) handleZone(c cmd.Cmdline) bool {
     return true
 }
 
+func (tm * TerrainMap) handleRandRubble(c cmd.Cmdline) bool {
+    tm.RandomRubble(c.Int(0), c.Int(1))
+    return true
+}
+
 func (tm * TerrainMap) HandleCmd(c cmd.Cmdline, id string) bool {
     switch c.Str(0) {
-        case "": return true
-        case "place": return tm.handlePlace(c.Skip(1))
-        case "zone":  return tm.handleZone(c.Skip(1))
-        case "hline": return tm.handleHLine(c.Skip(1))
-        case "vline": return tm.handleVLine(c.Skip(1))
+        case "":            return true
+        case "place":       return tm.handlePlace(c.Skip(1))
+        case "zone":        return tm.handleZone(c.Skip(1))
+        case "hline":       return tm.handleHLine(c.Skip(1))
+        case "vline":       return tm.handleVLine(c.Skip(1))
+        case "randrubble":  return tm.handleRandRubble(c.Skip(1))
     }
     log.Println("terrain: unhandled command:", c)
     return false
