@@ -21,7 +21,7 @@ func (sp * ScriptProcessor) passCmd(c Cmdline, id string) bool {
             }
         }
     }
-    return sp.Handler.HandleCmd(c2, id)
+    return sp.Handler.HandleCmd(c2)
 }
 
 func (sp * ScriptProcessor) HandleCmd(c Cmdline, id string) bool {
@@ -33,7 +33,7 @@ func (sp * ScriptProcessor) HandleCmd(c Cmdline, id string) bool {
         case "":    return true
         case "for": return sp.handleFor(c.Skip(0), id)
         default:
-            return sp.Handler.HandleCmd(c, id)
+            return sp.Handler.HandleCmd(c)
     }
 }
 

@@ -57,7 +57,7 @@ func (tm * TerrainMap) handleRandRubble(c cmd.Cmdline) bool {
     return true
 }
 
-func (tm * TerrainMap) HandleCmd(c cmd.Cmdline, id string) bool {
+func (tm * TerrainMap) HandleCmd(c cmd.Cmdline) bool {
     switch c.Str(0) {
         case "":            return true
         case "place":       return tm.handlePlace(c.Skip(1))

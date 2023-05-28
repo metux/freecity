@@ -53,16 +53,16 @@ func (mw * MainWindow) NotifyEmit(a base.Action, n items.NotifyMsg) bool {
     return false
 }
 
-func (mw * MainWindow) HandleCmd(c cmd.Cmdline, id string) bool {
+func (mw * MainWindow) HandleCmd(c cmd.Cmdline) bool {
     log.Println("mainwindow cmd:", c)
     switch c.Str(0) {
         case "":        return false
-        case "mapview": return mw.HandleCmd(c.Skip(1), id)
+        case "mapview": return mw.HandleCmd(c.Skip(1))
         case "quit":    mw.App.Quit(); break
         case "tool":    mw.SetTool(tools.ChooseTool(c.Skip(1), mw.Game))
-        case "game":    return mw.Game.HandleCmd(c.Skip(1), id)
+        case "game":    return mw.Game.HandleCmd(c.Skip(1))
         default:
-            log.Println("MainWindow: unhandled command: ", c, id)
+            log.Println("MainWindow: unhandled command: ", c)
             return false
     }
     return true

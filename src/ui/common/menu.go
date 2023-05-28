@@ -74,5 +74,5 @@ func (me * MenuEntry) CreateEntries() {
 }
 
 func (me * MenuEntry) Activate() {
-    me.CmdHandler.HandleCmd(cmd.Split(me.Cmd), me.Id)
+    me.CmdHandler.HandleCmd(cmd.Split(me.Cmd))
 }

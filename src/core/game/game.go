@@ -71,7 +71,7 @@ func (g * Game) SetSpeed(x int) {
     g.Start()
 }
 
-func (g * Game) HandleCmd(c cmd.Cmdline, id string) bool {
+func (g * Game) HandleCmd(c cmd.Cmdline) bool {
     switch c.Str(0) {
         case "": return true
         case "speed": {
@@ -79,9 +79,9 @@ func (g * Game) HandleCmd(c cmd.Cmdline, id string) bool {
             return true
         }
         case "terrain":
-            return g.Terrain.HandleCmd(c[1:], id)
+            return g.Terrain.HandleCmd(c[1:])
         default:
-            log.Println("Game: unknown command: ", c, id)
+            log.Println("Game: unknown command: ", c)
             return false
     }
 }
