@@ -7,10 +7,10 @@ import (
 )
 
 const (
-    padding = uint(0)
-    labelWidth = 50
+    padding     = uint(0)
+    labelWidth  = 50
     labelHeight = 20
-    margin = 10
+    margin      = 10
 )
 
 type StatusBarWindow struct {
@@ -76,9 +76,8 @@ func (sb * StatusBarWindow) addLabel(end bool) * gtk.Label {
     return l
 }
 
-func (sb * StatusBarWindow) Init(parent * gtk.Box) {
+func (sb * StatusBarWindow) Init() gtk.IWidget {
     sb.widgetStatusBar,_ = gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 0)
-    parent.PackEnd(sb.widgetStatusBar, false, false, 0)
 
     // left side
     sb.addLabel(false).SetText("  ")
@@ -92,4 +91,6 @@ func (sb * StatusBarWindow) Init(parent * gtk.Box) {
     sb.addSep(true)
 
     sb.Update()
+
+    return sb.widgetStatusBar
 }

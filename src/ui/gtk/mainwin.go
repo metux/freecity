@@ -119,11 +119,11 @@ func (mw * MainWindow) Init(app * gtk.Application, g * game.Game, datadir string
     mw.window.Connect("destroy", func() { cmd.RunScriptCmd(mw, "", "quit") } )
     mw.window.SetDefaultSize(mw.Config.WindowSize.X, mw.Config.WindowSize.Y)
 
-    mw.Box,_ = gtk.BoxNew(gtk.ORIENTATION_VERTICAL,0)
+    mw.Box,_ = gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 0)
     mw.window.Add(mw.Box)
 
     // create the status bar (fixme: separate object ?)
-    mw.StatusBar.Init(mw.Box)
+    mw.Box.PackEnd(mw.StatusBar.Init(), false, false, 0)
     mw.StatusBar.SetDate(g.Terrain.Date)
 
     // init menu
