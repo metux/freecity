@@ -19,7 +19,7 @@ type MapViewWindow struct {
     DoWorkAt    func (p point)
 }
 
-func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, statusmsg func(s string)) {
+func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, statusmsg func(s string)) gtk.IWidget {
     mv.Config = cf
     mv.Game = g
     mv.DrawingArea, _ = gtk.DrawingAreaNew()
@@ -42,6 +42,7 @@ func (mv * MapViewWindow) Init(g * game.Game, parent * gtk.Box, cf * Config, sta
         mv.clickAt(p1.X, p1.Y)
     })
     parent.PackStart(mv.DrawingArea, true, true, 0)
+    return mv.DrawingArea
 }
 
 // FIXME: differentiate buttons
